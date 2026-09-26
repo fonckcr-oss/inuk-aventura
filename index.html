@@ -7,6 +7,7 @@
 <title>Inúk - Aventura en Costa Rica</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -22,10 +23,6 @@ html,body{
   touch-action:none;
 }
 
-/* =========================================
-   PANTALLAS
-========================================= */
-
 .pantalla{
   position:absolute;
   inset:0;
@@ -37,9 +34,9 @@ html,body{
   display:none !important;
 }
 
-/* =========================================
-   SELECCIÓN DE PERSONAJE
-========================================= */
+/* =====================================================
+   SELECCIÓN
+===================================================== */
 
 #seleccion{
   display:flex;
@@ -201,9 +198,9 @@ html,body{
   font-weight:bold;
 }
 
-/* =========================================
+/* =====================================================
    JUEGO
-========================================= */
+===================================================== */
 
 #juego{
   background:
@@ -215,8 +212,6 @@ html,body{
       #48995e 100%
     );
 }
-
-/* cielo */
 
 .sol{
   position:absolute;
@@ -235,7 +230,7 @@ html,body{
     0 0 45px #fff5a5;
 }
 
-/* montañas */
+/* MONTAÑAS */
 
 .montana{
   position:absolute;
@@ -265,7 +260,7 @@ html,body{
   transform:scale(1.15);
 }
 
-/* bosque */
+/* BOSQUE */
 
 .bosque{
   position:absolute;
@@ -309,7 +304,7 @@ html,body{
     );
 }
 
-/* suelo */
+/* SUELO */
 
 .suelo{
   position:absolute;
@@ -334,9 +329,9 @@ html,body{
   border-top:8px solid #67aa58;
 }
 
-/* =========================================
-   CABECERA DEL JUEGO
-========================================= */
+/* =====================================================
+   HUD
+===================================================== */
 
 .hud{
   position:absolute;
@@ -373,9 +368,9 @@ html,body{
   color:#ffdf4d;
 }
 
-/* =========================================
+/* =====================================================
    PERSONAJE
-========================================= */
+===================================================== */
 
 #jugador{
   position:absolute;
@@ -391,7 +386,7 @@ html,body{
   align-items:flex-end;
   justify-content:center;
 
-  transition:left .06s linear;
+  transition:left .025s linear;
 }
 
 #jugador img{
@@ -410,9 +405,9 @@ html,body{
   transform:scaleX(-1);
 }
 
-/* =========================================
+/* =====================================================
    OBJETOS
-========================================= */
+===================================================== */
 
 .objeto{
   position:absolute;
@@ -443,23 +438,33 @@ html,body{
   box-shadow:
     0 5px 14px rgba(0,0,0,.25);
 
-  animation:flotar 1.5s ease-in-out infinite alternate;
+  animation:
+    flotar 1.5s ease-in-out infinite alternate;
 }
 
 @keyframes flotar{
+
   from{
-    transform:translateY(0) rotate(-5deg);
+    transform:
+      translateY(0)
+      rotate(-5deg);
   }
+
   to{
-    transform:translateY(-12px) rotate(5deg);
+    transform:
+      translateY(-12px)
+      rotate(5deg);
   }
+
 }
 
-.recogido{
-  animation:recogerObjeto .45s forwards;
+.objeto.recogido{
+  animation:
+    recogerObjeto .45s forwards;
 }
 
 @keyframes recogerObjeto{
+
   to{
     transform:
       translateY(-100px)
@@ -467,11 +472,12 @@ html,body{
 
     opacity:0;
   }
+
 }
 
-/* =========================================
+/* =====================================================
    MENSAJES
-========================================= */
+===================================================== */
 
 #mensaje{
   position:absolute;
@@ -494,20 +500,24 @@ html,body{
   font-weight:bold;
   font-size:14px;
 
-  box-shadow:0 6px 20px rgba(0,0,0,.15);
+  box-shadow:
+    0 6px 20px rgba(0,0,0,.15);
 
   opacity:0;
 
-  transition:opacity .3s;
+  transition:
+    opacity .3s;
+
+  pointer-events:none;
 }
 
 #mensaje.visible{
   opacity:1;
 }
 
-/* =========================================
+/* =====================================================
    CONTROLES
-========================================= */
+===================================================== */
 
 .controles{
   position:absolute;
@@ -547,7 +557,8 @@ html,body{
   font-size:30px;
   font-weight:bold;
 
-  box-shadow:0 5px 15px rgba(0,0,0,.22);
+  box-shadow:
+    0 5px 15px rgba(0,0,0,.22);
 
   pointer-events:auto;
 
@@ -559,6 +570,7 @@ html,body{
 
 .control:active{
   transform:scale(.9);
+
   background:#ef7f35;
 }
 
@@ -571,9 +583,9 @@ html,body{
   font-size:15px;
 }
 
-/* =========================================
+/* =====================================================
    FINAL
-========================================= */
+===================================================== */
 
 #final{
   position:absolute;
@@ -607,11 +619,13 @@ html,body{
       #fff
     );
 
-  box-shadow:0 20px 60px rgba(0,0,0,.35);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.35);
 }
 
 .final-caja h2{
   color:#1e684b;
+
   font-size:36px;
 }
 
@@ -643,9 +657,9 @@ html,body{
   cursor:pointer;
 }
 
-/* =========================================
+/* =====================================================
    CELULAR
-========================================= */
+===================================================== */
 
 @media(max-width:600px){
 
@@ -655,6 +669,10 @@ html,body{
 
   .panel-seleccion h1{
     font-size:34px;
+  }
+
+  .subtitulo{
+    font-size:13px;
   }
 
   .personajes{
@@ -719,7 +737,9 @@ html,body{
 
 }
 
-/* escritorio: controles discretos */
+/* =====================================================
+   ESCRITORIO
+===================================================== */
 
 @media(min-width:900px){
 
@@ -728,16 +748,21 @@ html,body{
   }
 
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- =====================================
-     SELECCIÓN
-===================================== -->
 
-<section id="seleccion" class="pantalla">
+<!-- ===================================================
+     SELECCIÓN
+=================================================== -->
+
+<section
+  id="seleccion"
+  class="pantalla"
+>
 
   <div class="panel-seleccion">
 
@@ -763,6 +788,7 @@ html,body{
         class="tarjeta"
         onclick="elegirPersonaje('nina')"
       >
+
         <img
           src="1M.png"
           alt="Exploradora"
@@ -771,12 +797,15 @@ html,body{
         <div class="nombre-personaje">
           👧 Exploradora
         </div>
+
       </div>
+
 
       <div
         class="tarjeta"
         onclick="elegirPersonaje('nino')"
       >
+
         <img
           src="0H.png"
           alt="Explorador"
@@ -785,6 +814,7 @@ html,body{
         <div class="nombre-personaje">
           👦 Explorador
         </div>
+
       </div>
 
     </div>
@@ -794,9 +824,9 @@ html,body{
 </section>
 
 
-<!-- =====================================
+<!-- ===================================================
      JUEGO
-===================================== -->
+=================================================== -->
 
 <section
   id="juego"
@@ -810,7 +840,11 @@ html,body{
   <div class="montana m3"></div>
 
   <div class="bosque"></div>
+
   <div class="suelo"></div>
+
+
+  <!-- HUD -->
 
   <div class="hud">
 
@@ -819,24 +853,37 @@ html,body{
     </div>
 
     <div class="puntos">
-      ⭐ <span id="contador">0</span> / 5
+      ⭐
+      <span id="contador">
+        0
+      </span>
+      / 5
     </div>
 
   </div>
+
+
+  <!-- MENSAJE -->
 
   <div id="mensaje">
     ¡Muy bien!
   </div>
 
+
+  <!-- PERSONAJE -->
+
   <div id="jugador">
+
     <img
       id="imagenJugador"
       src=""
       alt="Personaje"
     >
+
   </div>
 
-  <!-- objetos -->
+
+  <!-- OBJETOS -->
 
   <div
     class="objeto"
@@ -878,7 +925,8 @@ html,body{
     🪶
   </div>
 
-  <!-- controles -->
+
+  <!-- CONTROLES -->
 
   <div class="controles">
 
@@ -900,6 +948,7 @@ html,body{
 
     </div>
 
+
     <div
       id="saltar"
       class="control salto"
@@ -912,9 +961,9 @@ html,body{
 </section>
 
 
-<!-- =====================================
+<!-- ===================================================
      FINAL
-===================================== -->
+=================================================== -->
 
 <section
   id="final"
@@ -953,54 +1002,71 @@ html,body{
 
 <script>
 
-/* =========================================
-   CONFIGURACIÓN DE PERSONAJES
-========================================= */
+/* =====================================================
+   PERSONAJES
+===================================================== */
 
 const PERSONAJES = {
 
   nino:{
-    quieto:"0H.png",
+
+    quieto:
+      "0H.png",
 
     caminar:[
       "1H.png",
       "2H.png",
-      "3H.png"
+      "3H.png",
+      "2H.png"
     ],
 
-    salto:"4H.png",
+    salto:
+      "4H.png",
 
-    celebrar:"5H.png",
+    celebrar:
+      "5H.png",
 
-    especial:"6H.png",
+    especial:
+      "6H.png",
 
-    pose:"7H.png",
+    pose:
+      "7H.png",
 
-    recoger:"8H.png"
+    recoger:
+      "8H.png"
+
   },
 
+
   nina:{
-    quieto:"1M.png",
+
+    quieto:
+      "1M.png",
 
     caminar:[
       "2M.png",
       "3M.png",
-      "6M.png"
+      "6M.png",
+      "3M.png"
     ],
 
-    salto:"4M.png",
+    salto:
+      "4M.png",
 
-    recoger:"5M.png",
+    recoger:
+      "5M.png",
 
-    celebrar:"7M.png"
+    celebrar:
+      "7M.png"
+
   }
 
 };
 
 
-/* =========================================
+/* =====================================================
    VARIABLES
-========================================= */
+===================================================== */
 
 let tipoPersonaje = null;
 
@@ -1014,6 +1080,8 @@ let caminando = false;
 
 let saltando = false;
 
+let recogiendo = false;
+
 let puntos = 0;
 
 let frameCaminar = 0;
@@ -1022,10 +1090,14 @@ let intervaloCaminar = null;
 
 let intervaloMovimiento = null;
 
+let teclaMovimiento = 0;
 
-/* =========================================
+let tiempoMensaje = null;
+
+
+/* =====================================================
    ELEMENTOS
-========================================= */
+===================================================== */
 
 const seleccion =
   document.getElementById("seleccion");
@@ -1052,32 +1124,60 @@ const imagenFinal =
   document.getElementById("imagenFinal");
 
 
-/* =========================================
+/* =====================================================
    ELEGIR PERSONAJE
-========================================= */
+===================================================== */
 
 function elegirPersonaje(tipo){
 
-  tipoPersonaje = tipo;
+  tipoPersonaje =
+    tipo;
 
   personaje =
     PERSONAJES[tipo];
 
-  imagenJugador.src =
-    personaje.quieto;
 
   posicion = 8;
 
+  direccion = 1;
+
+  puntos = 0;
+
+  caminando = false;
+
+  saltando = false;
+
+  recogiendo = false;
+
+  teclaMovimiento = 0;
+
+
+  contador.textContent =
+    "0";
+
+
+  imagenJugador.src =
+    personaje.quieto;
+
+
   jugador.style.left =
     posicion + "%";
+
+
+  jugador.classList.remove(
+    "mirando-izquierda"
+  );
+
 
   seleccion.classList.add(
     "oculto"
   );
 
+
   juego.classList.remove(
     "oculto"
   );
+
 
   mostrarMensaje(
     "¡Comienza la aventura! 🌿"
@@ -1086,56 +1186,133 @@ function elegirPersonaje(tipo){
 }
 
 
-/* =========================================
-   CAMINAR
-========================================= */
+/* =====================================================
+   COMENZAR A CAMINAR
+===================================================== */
 
 function comenzarMovimiento(dir){
 
-  if(saltando) return;
+  if(
+    !personaje ||
+    saltando ||
+    recogiendo
+  ){
+    return;
+  }
 
-  direccion = dir;
+
+  direccion =
+    dir;
+
 
   jugador.classList.toggle(
     "mirando-izquierda",
-    dir < 0
+    direccion < 0
   );
 
-  if(!caminando){
 
-    caminando = true;
+  /*
+     Si ya está caminando,
+     solamente cambiamos dirección.
 
-    frameCaminar = 0;
+     NO reiniciamos la animación.
+  */
 
-    intervaloCaminar =
-      setInterval(()=>{
+  if(caminando){
 
-        if(!caminando) return;
-
-        const frames =
-          personaje.caminar;
-
-        imagenJugador.src =
-          frames[
-            frameCaminar %
-            frames.length
-          ];
-
-        frameCaminar++;
-
-      },150);
+    return;
 
   }
+
+
+  caminando =
+    true;
+
+
+  frameCaminar =
+    0;
+
+
+  const frames =
+    personaje.caminar;
+
+
+  /*
+     Mostramos inmediatamente
+     el primer frame.
+  */
+
+  imagenJugador.src =
+    frames[0];
+
+
+  /* =================================================
+     ANIMACIÓN DE LAS PIERNAS / POSES
+  ================================================= */
+
+  clearInterval(
+    intervaloCaminar
+  );
+
+
+  intervaloCaminar =
+    setInterval(()=>{
+
+      if(
+        !caminando ||
+        saltando ||
+        recogiendo
+      ){
+        return;
+      }
+
+
+      frameCaminar++;
+
+
+      if(
+        frameCaminar >=
+        frames.length
+      ){
+
+        frameCaminar =
+          0;
+
+      }
+
+
+      imagenJugador.src =
+        frames[
+          frameCaminar
+        ];
+
+    },160);
+
+
+  /* =================================================
+     MOVIMIENTO HORIZONTAL
+  ================================================= */
 
   clearInterval(
     intervaloMovimiento
   );
 
+
   intervaloMovimiento =
     setInterval(()=>{
 
+      if(
+        !caminando ||
+        saltando ||
+        recogiendo
+      ){
+        return;
+      }
+
+
       posicion +=
         direccion * .65;
+
 
       posicion =
         Math.max(
@@ -1146,8 +1323,10 @@ function comenzarMovimiento(dir){
           )
         );
 
+
       jugador.style.left =
         posicion + "%";
+
 
       detectarObjetos();
 
@@ -1156,21 +1335,61 @@ function comenzarMovimiento(dir){
 }
 
 
+/* =====================================================
+   CAMBIAR DIRECCIÓN
+===================================================== */
+
+function cambiarDireccion(dir){
+
+  direccion =
+    dir;
+
+
+  jugador.classList.toggle(
+    "mirando-izquierda",
+    direccion < 0
+  );
+
+}
+
+
+/* =====================================================
+   DETENER CAMINATA
+===================================================== */
+
 function detenerMovimiento(){
 
-  caminando = false;
+  if(!caminando){
+    return;
+  }
+
+
+  caminando =
+    false;
+
 
   clearInterval(
     intervaloCaminar
   );
 
+
   clearInterval(
     intervaloMovimiento
   );
 
+
+  intervaloCaminar =
+    null;
+
+
+  intervaloMovimiento =
+    null;
+
+
   if(
     personaje &&
-    !saltando
+    !saltando &&
+    !recogiendo
   ){
 
     imagenJugador.src =
@@ -1181,25 +1400,44 @@ function detenerMovimiento(){
 }
 
 
-/* =========================================
+/* =====================================================
    SALTAR
-========================================= */
+===================================================== */
 
 function saltar(){
 
   if(
     saltando ||
+    recogiendo ||
     !personaje
-  ) return;
+  ){
+    return;
+  }
 
-  saltando = true;
+
+  const estabaCaminando =
+    caminando;
+
+
+  if(caminando){
+
+    detenerMovimiento();
+
+  }
+
+
+  saltando =
+    true;
+
 
   imagenJugador.src =
     personaje.salto;
 
+
   jugador.animate(
 
     [
+
       {
         transform:
           "translateY(0)"
@@ -1207,70 +1445,112 @@ function saltar(){
 
       {
         transform:
-          "translateY(-125px)"
+          "translateY(-130px)"
       },
 
       {
         transform:
           "translateY(0)"
       }
+
     ],
 
     {
-      duration:650,
-      easing:"ease-out"
+
+      duration:
+        650,
+
+      easing:
+        "ease-out"
+
     }
 
   );
 
+
   setTimeout(()=>{
 
-    saltando = false;
+    saltando =
+      false;
+
 
     imagenJugador.src =
       personaje.quieto;
 
+
     detectarObjetos();
+
+
+    /*
+       Si seguía manteniendo
+       una dirección, continúa
+       caminando al caer.
+    */
+
+    if(
+      teclaMovimiento !== 0
+    ){
+
+      comenzarMovimiento(
+        teclaMovimiento
+      );
+
+    }
 
   },650);
 
 }
 
 
-/* =========================================
-   RECOGER OBJETOS
-========================================= */
+/* =====================================================
+   DETECTAR OBJETOS
+===================================================== */
 
 function detectarObjetos(){
 
+  if(
+    !personaje ||
+    recogiendo
+  ){
+    return;
+  }
+
+
   const rectJugador =
     jugador.getBoundingClientRect();
+
 
   const objetos =
     document.querySelectorAll(
       ".objeto:not(.recogido)"
     );
 
+
   objetos.forEach(objeto=>{
 
     const rectObjeto =
       objeto.getBoundingClientRect();
 
+
+    const centroJugador =
+      rectJugador.left +
+      rectJugador.width / 2;
+
+
+    const centroObjeto =
+      rectObjeto.left +
+      rectObjeto.width / 2;
+
+
     const distancia =
       Math.abs(
-        (
-          rectJugador.left +
-          rectJugador.width/2
-        )
-        -
-        (
-          rectObjeto.left +
-          rectObjeto.width/2
-        )
+        centroJugador -
+        centroObjeto
       );
 
+
     if(
-      distancia < 60
+      distancia < 55
     ){
 
       recogerObjeto(
@@ -1284,24 +1564,52 @@ function detectarObjetos(){
 }
 
 
+/* =====================================================
+   RECOGER OBJETO
+===================================================== */
+
 function recogerObjeto(objeto){
 
   if(
     objeto.classList.contains(
       "recogido"
-    )
-  ) return;
+    ) ||
+    recogiendo
+  ){
+    return;
+  }
+
+
+  recogiendo =
+    true;
+
+
+  const estabaCaminando =
+    caminando;
+
+
+  if(caminando){
+
+    detenerMovimiento();
+
+  }
+
 
   objeto.classList.add(
     "recogido"
   );
 
+
   puntos++;
+
 
   contador.textContent =
     puntos;
 
-  /* pose recoger */
+
+  /*
+     Pose especial de recoger.
+  */
 
   if(
     personaje.recoger
@@ -1312,6 +1620,7 @@ function recogerObjeto(objeto){
 
   }
 
+
   mostrarMensaje(
     frases[
       Math.floor(
@@ -1321,35 +1630,52 @@ function recogerObjeto(objeto){
     ]
   );
 
+
   setTimeout(()=>{
 
+    recogiendo =
+      false;
+
+
     if(
-      !saltando &&
-      !caminando
+      puntos >= 5
     ){
 
-      imagenJugador.src =
-        personaje.quieto;
+      completarNivel();
+
+      return;
 
     }
 
-  },450);
 
-  if(puntos >= 5){
+    imagenJugador.src =
+      personaje.quieto;
 
-    setTimeout(
-      completarNivel,
-      700
-    );
 
-  }
+    /*
+       Si todavía mantiene
+       presionada una dirección,
+       sigue caminando.
+    */
+
+    if(
+      teclaMovimiento !== 0
+    ){
+
+      comenzarMovimiento(
+        teclaMovimiento
+      );
+
+    }
+
+  },550);
 
 }
 
 
-/* =========================================
+/* =====================================================
    FRASES
-========================================= */
+===================================================== */
 
 const frases = [
 
@@ -1366,21 +1692,21 @@ const frases = [
 ];
 
 
-let tiempoMensaje = null;
-
-
 function mostrarMensaje(texto){
 
   mensaje.textContent =
     texto;
 
+
   mensaje.classList.add(
     "visible"
   );
 
+
   clearTimeout(
     tiempoMensaje
   );
+
 
   tiempoMensaje =
     setTimeout(()=>{
@@ -1394,20 +1720,27 @@ function mostrarMensaje(texto){
 }
 
 
-/* =========================================
+/* =====================================================
    FINAL DEL NIVEL
-========================================= */
+===================================================== */
 
 function completarNivel(){
 
   detenerMovimiento();
 
+
+  teclaMovimiento =
+    0;
+
+
   juego.classList.add(
     "oculto"
   );
 
+
   imagenFinal.src =
     personaje.celebrar;
+
 
   final.classList.remove(
     "oculto"
@@ -1416,30 +1749,53 @@ function completarNivel(){
 }
 
 
-/* =========================================
+/* =====================================================
    REINICIAR
-========================================= */
+===================================================== */
 
 function reiniciar(){
+
+  detenerMovimiento();
+
 
   final.classList.add(
     "oculto"
   );
 
+
   juego.classList.add(
     "oculto"
   );
+
 
   seleccion.classList.remove(
     "oculto"
   );
 
-  puntos = 0;
+
+  puntos =
+    0;
+
+
+  posicion =
+    8;
+
+
+  teclaMovimiento =
+    0;
+
+
+  saltando =
+    false;
+
+
+  recogiendo =
+    false;
+
 
   contador.textContent =
     "0";
 
-  posicion = 8;
 
   document
     .querySelectorAll(
@@ -1456,9 +1812,9 @@ function reiniciar(){
 }
 
 
-/* =========================================
+/* =====================================================
    TECLADO
-========================================= */
+===================================================== */
 
 document.addEventListener(
   "keydown",
@@ -1468,35 +1824,112 @@ document.addEventListener(
       juego.classList.contains(
         "oculto"
       )
-    ) return;
+    ){
+      return;
+    }
+
+
+    /* ===============================================
+       DERECHA
+    =============================================== */
 
     if(
       e.key ===
       "ArrowRight"
     ){
 
-      comenzarMovimiento(1);
+      e.preventDefault();
+
+
+      if(
+        teclaMovimiento !== 1
+      ){
+
+        teclaMovimiento =
+          1;
+
+
+        if(caminando){
+
+          cambiarDireccion(1);
+
+        }
+        else if(
+          !saltando &&
+          !recogiendo
+        ){
+
+          comenzarMovimiento(1);
+
+        }
+
+      }
 
     }
+
+
+    /* ===============================================
+       IZQUIERDA
+    =============================================== */
 
     if(
       e.key ===
       "ArrowLeft"
     ){
 
-      comenzarMovimiento(-1);
+      e.preventDefault();
+
+
+      if(
+        teclaMovimiento !== -1
+      ){
+
+        teclaMovimiento =
+          -1;
+
+
+        if(caminando){
+
+          cambiarDireccion(-1);
+
+        }
+        else if(
+          !saltando &&
+          !recogiendo
+        ){
+
+          comenzarMovimiento(-1);
+
+        }
+
+      }
 
     }
 
+
+    /* ===============================================
+       SALTO
+    =============================================== */
+
     if(
-      e.key ===
-      "ArrowUp" ||
+      e.key === "ArrowUp" ||
       e.key === " "
     ){
 
       e.preventDefault();
 
-      saltar();
+
+      /*
+         Evita repetir salto
+         automáticamente si se
+         mantiene la tecla.
+      */
+
+      if(!e.repeat){
+
+        saltar();
+
+      }
 
     }
 
@@ -1504,16 +1937,36 @@ document.addEventListener(
 );
 
 
+/* =====================================================
+   SOLTAR TECLAS
+===================================================== */
+
 document.addEventListener(
   "keyup",
   e=>{
 
     if(
-      e.key ===
-      "ArrowRight" ||
-      e.key ===
-      "ArrowLeft"
+      e.key === "ArrowRight" &&
+      teclaMovimiento === 1
     ){
+
+      teclaMovimiento =
+        0;
+
+
+      detenerMovimiento();
+
+    }
+
+
+    if(
+      e.key === "ArrowLeft" &&
+      teclaMovimiento === -1
+    ){
+
+      teclaMovimiento =
+        0;
+
 
       detenerMovimiento();
 
@@ -1523,17 +1976,18 @@ document.addEventListener(
 );
 
 
-/* =========================================
-   CONTROLES TÁCTILES
-========================================= */
+/* =====================================================
+   BOTONES TÁCTILES
+===================================================== */
 
 function prepararBoton(
   id,
-  direccionBoton
+  dir
 ){
 
   const boton =
     document.getElementById(id);
+
 
   boton.addEventListener(
     "pointerdown",
@@ -1541,40 +1995,104 @@ function prepararBoton(
 
       e.preventDefault();
 
-      boton.setPointerCapture(
-        e.pointerId
-      );
 
-      comenzarMovimiento(
-        direccionBoton
-      );
+      teclaMovimiento =
+        dir;
+
+
+      try{
+
+        boton.setPointerCapture(
+          e.pointerId
+        );
+
+      }
+      catch(error){}
+
+
+      if(caminando){
+
+        cambiarDireccion(
+          dir
+        );
+
+      }
+      else{
+
+        comenzarMovimiento(
+          dir
+        );
+
+      }
 
     }
   );
 
+
+  function soltar(){
+
+    if(
+      teclaMovimiento === dir
+    ){
+
+      teclaMovimiento =
+        0;
+
+    }
+
+
+    detenerMovimiento();
+
+  }
+
+
   boton.addEventListener(
     "pointerup",
-    detenerMovimiento
+    soltar
   );
+
 
   boton.addEventListener(
     "pointercancel",
-    detenerMovimiento
+    soltar
+  );
+
+
+  boton.addEventListener(
+    "pointerleave",
+    e=>{
+
+      if(
+        e.buttons === 0
+      ){
+
+        soltar();
+
+      }
+
+    }
   );
 
 }
 
+
+/* BOTÓN IZQUIERDO */
 
 prepararBoton(
   "izquierda",
   -1
 );
 
+
+/* BOTÓN DERECHO */
+
 prepararBoton(
   "derecha",
   1
 );
 
+
+/* BOTÓN SALTAR */
 
 document
   .getElementById(
@@ -1590,6 +2108,23 @@ document
 
     }
   );
+
+
+/* =====================================================
+   SEGURIDAD AL PERDER FOCO
+===================================================== */
+
+window.addEventListener(
+  "blur",
+  ()=>{
+
+    teclaMovimiento =
+      0;
+
+    detenerMovimiento();
+
+  }
+);
 
 </script>
 
