@@ -19,9 +19,14 @@ html,body{
   height:100%;
   overflow:hidden;
   font-family:Arial,Helvetica,sans-serif;
-  background:#102f25;
+  background:#123d2e;
   touch-action:none;
+  user-select:none;
 }
+
+/* =====================================================
+   GENERAL
+===================================================== */
 
 .pantalla{
   position:absolute;
@@ -40,137 +45,92 @@ html,body{
 
 #seleccion{
   display:flex;
-  align-items:center;
   justify-content:center;
-  overflow:auto;
+  align-items:center;
 
   background:
-    radial-gradient(circle at 50% 20%,rgba(255,255,255,.32),transparent 35%),
+    radial-gradient(circle at 50% 10%,
+    rgba(255,255,255,.55),
+    transparent 35%),
+
     linear-gradient(
       180deg,
-      #7ddbc4 0%,
-      #c9f1c7 43%,
-      #6eba72 100%
+      #75d9cf 0%,
+      #c9f1c7 50%,
+      #69b86d 100%
     );
 }
 
-#seleccion:before,
-#seleccion:after{
-  content:"";
-  position:absolute;
-  bottom:-70px;
-
-  width:420px;
-  height:420px;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      #286d42 0 28%,
-      #368452 29% 45%,
-      transparent 46%
-    );
-
-  opacity:.55;
-}
-
-#seleccion:before{
-  left:-220px;
-}
-
-#seleccion:after{
-  right:-220px;
-}
-
-.panel-seleccion{
+.panel{
+  width:min(900px,95%);
+  text-align:center;
   position:relative;
   z-index:2;
-
-  width:min(900px,94%);
-  text-align:center;
-
-  padding:25px;
 }
 
-.logo-mini{
-  font-size:14px;
+.marca{
+  color:#17654b;
   font-weight:900;
-  letter-spacing:4px;
-  color:#12614b;
+  letter-spacing:5px;
+  font-size:14px;
 }
 
-.panel-seleccion h1{
-  margin-top:7px;
-
-  font-size:clamp(34px,6vw,64px);
-  line-height:1;
-
+h1{
   color:#164f3d;
-
-  text-shadow:
-    0 2px 0 rgba(255,255,255,.7);
+  font-size:clamp(36px,6vw,65px);
+  margin-top:5px;
+  text-shadow:0 2px white;
 }
 
 .subtitulo{
-  margin-top:10px;
-
   color:#276b56;
-
-  font-size:clamp(14px,2.2vw,19px);
+  margin-top:8px;
+  font-size:17px;
 }
 
 .elige{
   display:inline-block;
-
-  margin:20px 0 14px;
+  margin:20px 0 15px;
   padding:9px 22px;
+
+  background:white;
+  color:#17614a;
 
   border-radius:30px;
 
-  background:#fff;
-  color:#1e664c;
-
   font-weight:bold;
 
-  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
 }
 
 .personajes{
   display:flex;
   justify-content:center;
-  align-items:flex-end;
-
   gap:25px;
 }
 
 .tarjeta{
   position:relative;
 
-  width:min(310px,42vw);
+  width:min(310px,43vw);
   height:390px;
 
-  border:4px solid rgba(255,255,255,.9);
+  overflow:hidden;
+
+  background:rgba(255,255,255,.5);
+
+  border:4px solid white;
   border-radius:28px;
 
-  background:rgba(255,255,255,.45);
-
-  overflow:hidden;
   cursor:pointer;
 
-  box-shadow:0 15px 35px rgba(0,0,0,.18);
+  box-shadow:0 15px 35px rgba(0,0,0,.2);
 
-  transition:
-    transform .2s,
-    box-shadow .2s;
+  transition:.2s;
 }
 
 .tarjeta:hover{
   transform:translateY(-8px) scale(1.02);
-
-  box-shadow:
-    0 22px 45px rgba(0,0,0,.25);
 }
 
 .tarjeta img{
@@ -179,11 +139,10 @@ html,body{
 
   object-fit:contain;
 
-  filter:
-    drop-shadow(0 10px 8px rgba(0,0,0,.18));
+  filter:drop-shadow(0 10px 8px rgba(0,0,0,.2));
 }
 
-.nombre-personaje{
+.nombre{
   position:absolute;
   bottom:0;
   left:0;
@@ -191,10 +150,10 @@ html,body{
 
   padding:14px;
 
-  background:rgba(20,92,67,.93);
+  background:rgba(20,92,67,.94);
   color:white;
 
-  font-size:19px;
+  font-size:18px;
   font-weight:bold;
 }
 
@@ -205,59 +164,60 @@ html,body{
 #juego{
   background:
     linear-gradient(
-      180deg,
-      #6bd5e8 0%,
-      #aee9e5 36%,
-      #9bd886 37%,
-      #48995e 100%
+      #65d5e8 0%,
+      #a9e9e4 37%,
+      #8fd27c 38%,
+      #438a50 100%
     );
 }
+
+/* SOL */
 
 .sol{
   position:absolute;
 
-  top:55px;
   right:10%;
+  top:70px;
 
   width:100px;
   height:100px;
 
   border-radius:50%;
 
-  background:#ffe56c;
+  background:#ffe46a;
 
-  box-shadow:
-    0 0 45px #fff5a5;
+  box-shadow:0 0 50px #fff2a0;
 }
 
 /* MONTAÑAS */
 
 .montana{
   position:absolute;
-  bottom:29%;
+
+  bottom:27%;
 
   width:0;
   height:0;
 
-  border-left:180px solid transparent;
-  border-right:180px solid transparent;
-  border-bottom:230px solid #43845d;
+  border-left:200px solid transparent;
+  border-right:200px solid transparent;
+  border-bottom:260px solid #44825d;
 
-  opacity:.75;
+  opacity:.7;
 }
 
 .m1{
-  left:-60px;
+  left:-100px;
 }
 
 .m2{
-  left:25%;
+  left:28%;
   transform:scale(.8);
 }
 
 .m3{
-  right:-60px;
-  transform:scale(1.15);
+  right:-100px;
+  transform:scale(1.1);
 }
 
 /* BOSQUE */
@@ -265,42 +225,47 @@ html,body{
 .bosque{
   position:absolute;
 
+  bottom:19%;
   left:0;
   right:0;
-  bottom:20%;
 
-  height:190px;
+  height:210px;
 
   background:
     radial-gradient(
       ellipse at 5% 100%,
-      #205d39 0 14%,
-      transparent 15%
+      #205d39 0 15%,
+      transparent 16%
     ),
+
     radial-gradient(
       ellipse at 20% 100%,
-      #276d3e 0 17%,
-      transparent 18%
+      #287141 0 18%,
+      transparent 19%
     ),
+
     radial-gradient(
       ellipse at 38% 100%,
-      #1f5d37 0 18%,
-      transparent 19%
+      #1e5935 0 19%,
+      transparent 20%
     ),
+
     radial-gradient(
-      ellipse at 58% 100%,
-      #2c7544 0 18%,
-      transparent 19%
+      ellipse at 57% 100%,
+      #2d7745 0 19%,
+      transparent 20%
     ),
+
     radial-gradient(
       ellipse at 77% 100%,
-      #205f38 0 18%,
-      transparent 19%
+      #205e38 0 19%,
+      transparent 20%
     ),
+
     radial-gradient(
       ellipse at 95% 100%,
-      #286f41 0 18%,
-      transparent 19%
+      #286e41 0 19%,
+      transparent 20%
     );
 }
 
@@ -315,18 +280,13 @@ html,body{
   width:100%;
   height:23%;
 
-  background:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 80px,
-      rgba(255,255,255,.025) 81px 83px
-    ),
-    linear-gradient(
-      #498d48,
-      #2e703c
-    );
+  border-top:8px solid #68ad58;
 
-  border-top:8px solid #67aa58;
+  background:
+    linear-gradient(
+      #498e48,
+      #28693b
+    );
 }
 
 /* =====================================================
@@ -335,7 +295,7 @@ html,body{
 
 .hud{
   position:absolute;
-  z-index:20;
+  z-index:50;
 
   top:15px;
   left:15px;
@@ -343,29 +303,62 @@ html,body{
 
   display:flex;
   justify-content:space-between;
-  align-items:center;
 
   pointer-events:none;
 }
 
-.nivel,
-.puntos{
-  padding:10px 17px;
+.hud-caja{
+  padding:10px 16px;
 
-  border:2px solid rgba(255,255,255,.8);
-  border-radius:22px;
+  border:2px solid rgba(255,255,255,.85);
+  border-radius:25px;
 
-  background:rgba(20,73,55,.87);
+  background:rgba(16,75,55,.88);
   color:white;
 
   font-size:14px;
   font-weight:bold;
 
-  box-shadow:0 5px 15px rgba(0,0,0,.15);
+  box-shadow:0 5px 15px rgba(0,0,0,.2);
 }
 
-.puntos span{
-  color:#ffdf4d;
+#contador{
+  color:#ffe359;
+}
+
+/* =====================================================
+   MENSAJE
+===================================================== */
+
+#mensaje{
+  position:absolute;
+  z-index:60;
+
+  top:75px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  padding:10px 20px;
+
+  background:white;
+  color:#17614a;
+
+  border-radius:25px;
+
+  font-weight:bold;
+
+  opacity:0;
+
+  transition:.25s;
+
+  box-shadow:0 5px 18px rgba(0,0,0,.15);
+
+  pointer-events:none;
+}
+
+#mensaje.visible{
+  opacity:1;
 }
 
 /* =====================================================
@@ -374,22 +367,24 @@ html,body{
 
 #jugador{
   position:absolute;
-  z-index:10;
+  z-index:20;
 
   left:8%;
   bottom:15%;
 
-  width:170px;
-  height:250px;
+  width:175px;
+  height:255px;
 
   display:flex;
-  align-items:flex-end;
   justify-content:center;
+  align-items:flex-end;
 
-  transition:left .025s linear;
+  will-change:left,transform;
 }
 
 #jugador img{
+  display:block;
+
   max-width:100%;
   max-height:100%;
 
@@ -397,11 +392,16 @@ html,body{
 
   pointer-events:none;
 
-  filter:
-    drop-shadow(0 9px 6px rgba(0,0,0,.25));
+  filter:drop-shadow(0 9px 6px rgba(0,0,0,.25));
 }
 
-.mirando-izquierda img{
+/*
+   IMPORTANTE:
+   solamente volteamos la imagen.
+   No tocamos el movimiento del contenedor.
+*/
+
+#jugador.izquierda img{
   transform:scaleX(-1);
 }
 
@@ -411,12 +411,12 @@ html,body{
 
 .objeto{
   position:absolute;
-  z-index:7;
+  z-index:15;
 
   bottom:17%;
 
-  width:52px;
-  height:52px;
+  width:54px;
+  height:54px;
 
   display:flex;
   align-items:center;
@@ -428,91 +428,44 @@ html,body{
   background:
     radial-gradient(
       circle at 35% 30%,
-      #fff8ad,
-      #ffd948 45%,
-      #ef9d25
+      #fff8b0,
+      #ffd744 50%,
+      #e99a25
     );
 
   font-size:28px;
 
-  box-shadow:
-    0 5px 14px rgba(0,0,0,.25);
+  box-shadow:0 5px 15px rgba(0,0,0,.25);
 
-  animation:
-    flotar 1.5s ease-in-out infinite alternate;
+  animation:flotar 1.4s ease-in-out infinite alternate;
 }
 
 @keyframes flotar{
 
   from{
-    transform:
-      translateY(0)
-      rotate(-5deg);
+    transform:translateY(0);
   }
 
   to{
-    transform:
-      translateY(-12px)
-      rotate(5deg);
+    transform:translateY(-12px);
   }
 
 }
 
 .objeto.recogido{
-  animation:
-    recogerObjeto .45s forwards;
+  animation:desaparecer .45s forwards;
 }
 
-@keyframes recogerObjeto{
+@keyframes desaparecer{
 
   to{
+    opacity:0;
+
     transform:
       translateY(-100px)
       scale(0);
-
-    opacity:0;
   }
 
-}
-
-/* =====================================================
-   MENSAJES
-===================================================== */
-
-#mensaje{
-  position:absolute;
-  z-index:30;
-
-  top:80px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  max-width:80%;
-
-  padding:10px 20px;
-
-  border-radius:22px;
-
-  background:rgba(255,255,255,.92);
-  color:#226447;
-
-  font-weight:bold;
-  font-size:14px;
-
-  box-shadow:
-    0 6px 20px rgba(0,0,0,.15);
-
-  opacity:0;
-
-  transition:
-    opacity .3s;
-
-  pointer-events:none;
-}
-
-#mensaje.visible{
-  opacity:1;
 }
 
 /* =====================================================
@@ -521,11 +474,11 @@ html,body{
 
 .controles{
   position:absolute;
-  z-index:40;
+  z-index:80;
 
-  bottom:18px;
   left:0;
   right:0;
+  bottom:18px;
 
   display:flex;
   justify-content:space-between;
@@ -535,52 +488,48 @@ html,body{
   pointer-events:none;
 }
 
-.movimiento{
+.grupo{
   display:flex;
   gap:12px;
 }
 
 .control{
-  width:68px;
-  height:68px;
-
-  border:3px solid rgba(255,255,255,.85);
-  border-radius:50%;
+  width:70px;
+  height:70px;
 
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
 
-  background:rgba(16,74,56,.78);
+  border:3px solid rgba(255,255,255,.9);
+  border-radius:50%;
+
+  background:rgba(15,76,56,.82);
   color:white;
 
   font-size:30px;
   font-weight:bold;
 
-  box-shadow:
-    0 5px 15px rgba(0,0,0,.22);
+  box-shadow:0 5px 15px rgba(0,0,0,.22);
 
   pointer-events:auto;
-
-  user-select:none;
-  -webkit-user-select:none;
 
   cursor:pointer;
 }
 
+.control.activo,
 .control:active{
-  transform:scale(.9);
-
-  background:#ef7f35;
+  background:#ee7b36;
+  transform:scale(.92);
 }
 
-.salto{
-  width:76px;
-  height:76px;
+#botonSalto{
+  width:78px;
+  height:78px;
 
-  background:rgba(239,127,53,.88);
+  background:rgba(238,123,54,.9);
 
-  font-size:15px;
+  font-size:14px;
 }
 
 /* =====================================================
@@ -589,23 +538,23 @@ html,body{
 
 #final{
   position:absolute;
-  z-index:100;
+  z-index:200;
 
   inset:0;
 
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
 
-  background:rgba(10,53,39,.82);
+  background:rgba(7,51,37,.84);
 
-  backdrop-filter:blur(5px);
+  backdrop-filter:blur(6px);
 }
 
 .final-caja{
   width:min(500px,90%);
 
-  padding:35px 25px;
+  padding:30px;
 
   text-align:center;
 
@@ -615,34 +564,32 @@ html,body{
   background:
     linear-gradient(
       145deg,
-      #fff7cb,
-      #fff
+      #fff7c9,
+      white
     );
 
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.35);
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
 }
 
 .final-caja h2{
-  color:#1e684b;
-
+  color:#17614a;
   font-size:36px;
 }
 
 .final-caja p{
-  margin:12px 0 20px;
+  margin:10px 0;
 
-  color:#42715f;
+  color:#47705f;
 }
 
 .final-caja img{
-  width:210px;
+  width:220px;
   height:220px;
 
   object-fit:contain;
 }
 
-.boton{
+.final-caja button{
   border:0;
   border-radius:25px;
 
@@ -651,10 +598,54 @@ html,body{
   background:#ed7935;
   color:white;
 
-  font-weight:bold;
   font-size:16px;
+  font-weight:bold;
 
   cursor:pointer;
+}
+
+/* =====================================================
+   CARGANDO
+===================================================== */
+
+#cargando{
+  position:fixed;
+  z-index:1000;
+
+  inset:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+
+  gap:12px;
+
+  background:#eaf7dd;
+  color:#17614a;
+
+  font-size:18px;
+  font-weight:bold;
+}
+
+.circulo{
+  width:45px;
+  height:45px;
+
+  border:5px solid #b8dfbe;
+  border-top-color:#17614a;
+
+  border-radius:50%;
+
+  animation:girar .8s linear infinite;
+}
+
+@keyframes girar{
+
+  to{
+    transform:rotate(360deg);
+  }
+
 }
 
 /* =====================================================
@@ -663,11 +654,11 @@ html,body{
 
 @media(max-width:600px){
 
-  .panel-seleccion{
-    padding:12px;
+  .panel{
+    width:98%;
   }
 
-  .panel-seleccion h1{
+  h1{
     font-size:34px;
   }
 
@@ -675,13 +666,17 @@ html,body{
     font-size:13px;
   }
 
+  .elige{
+    margin:13px 0 10px;
+  }
+
   .personajes{
-    gap:8px;
+    gap:7px;
   }
 
   .tarjeta{
     width:46vw;
-    height:330px;
+    height:325px;
 
     border-radius:20px;
   }
@@ -690,15 +685,14 @@ html,body{
     height:275px;
   }
 
-  .nombre-personaje{
-    padding:10px;
-
-    font-size:15px;
+  .nombre{
+    padding:9px;
+    font-size:14px;
   }
 
   #jugador{
-    width:125px;
-    height:195px;
+    width:130px;
+    height:200px;
 
     bottom:16%;
   }
@@ -707,44 +701,70 @@ html,body{
     width:43px;
     height:43px;
 
-    font-size:23px;
+    font-size:22px;
+  }
+
+  .hud{
+    top:8px;
+    left:7px;
+    right:7px;
+  }
+
+  .hud-caja{
+    padding:7px 9px;
+
+    font-size:10px;
+  }
+
+  #mensaje{
+    top:55px;
+
+    padding:7px 13px;
+
+    font-size:11px;
+  }
+
+  .controles{
+    bottom:10px;
+
+    padding:0 10px;
   }
 
   .control{
     width:60px;
     height:60px;
 
-    font-size:25px;
+    font-size:24px;
   }
 
-  .salto{
+  #botonSalto{
     width:66px;
     height:66px;
 
-    font-size:13px;
-  }
-
-  .controles{
-    padding:0 12px;
-  }
-
-  .nivel,
-  .puntos{
     font-size:11px;
-
-    padding:8px 11px;
   }
 
 }
 
 /* =====================================================
-   ESCRITORIO
+   CELULAR HORIZONTAL
 ===================================================== */
 
-@media(min-width:900px){
+@media(max-height:500px){
 
-  .controles{
-    opacity:.65;
+  #jugador{
+    width:120px;
+    height:175px;
+  }
+
+  .control{
+    width:52px;
+    height:52px;
+  }
+
+  #botonSalto{
+    width:58px;
+    height:58px;
   }
 
 }
@@ -756,17 +776,30 @@ html,body{
 
 
 <!-- ===================================================
+     PRECARGA
+=================================================== -->
+
+<div id="cargando">
+
+  <div class="circulo"></div>
+
+  Preparando la aventura...
+
+</div>
+
+
+<!-- ===================================================
      SELECCIÓN
 =================================================== -->
 
 <section
   id="seleccion"
-  class="pantalla"
+  class="pantalla oculto"
 >
 
-  <div class="panel-seleccion">
+  <div class="panel">
 
-    <div class="logo-mini">
+    <div class="marca">
       INÚK
     </div>
 
@@ -774,9 +807,9 @@ html,body{
       Aventura en Costa Rica
     </h1>
 
-    <p class="subtitulo">
+    <div class="subtitulo">
       Explora, descubre y aprende sobre nuestra naturaleza.
-    </p>
+    </div>
 
     <div class="elige">
       Elige tu explorador
@@ -784,17 +817,15 @@ html,body{
 
     <div class="personajes">
 
+
       <div
         class="tarjeta"
-        onclick="elegirPersonaje('nina')"
+        onclick="elegir('nina')"
       >
 
-        <img
-          src="1M.png"
-          alt="Exploradora"
-        >
+        <img src="1M.png">
 
-        <div class="nombre-personaje">
+        <div class="nombre">
           👧 Exploradora
         </div>
 
@@ -803,19 +834,17 @@ html,body{
 
       <div
         class="tarjeta"
-        onclick="elegirPersonaje('nino')"
+        onclick="elegir('nino')"
       >
 
-        <img
-          src="0H.png"
-          alt="Explorador"
-        >
+        <img src="0H.png">
 
-        <div class="nombre-personaje">
+        <div class="nombre">
           👦 Explorador
         </div>
 
       </div>
+
 
     </div>
 
@@ -848,15 +877,13 @@ html,body{
 
   <div class="hud">
 
-    <div class="nivel">
+    <div class="hud-caja">
       🌿 Nivel 1 · El Bosque de Inúk
     </div>
 
-    <div class="puntos">
+    <div class="hud-caja">
       ⭐
-      <span id="contador">
-        0
-      </span>
+      <span id="contador">0</span>
       / 5
     </div>
 
@@ -866,18 +893,18 @@ html,body{
   <!-- MENSAJE -->
 
   <div id="mensaje">
-    ¡Muy bien!
+    ¡Comienza la aventura!
   </div>
 
 
-  <!-- PERSONAJE -->
+  <!-- JUGADOR -->
 
   <div id="jugador">
 
     <img
-      id="imagenJugador"
+      id="sprite"
       src=""
-      alt="Personaje"
+      alt="Explorador"
     >
 
   </div>
@@ -887,7 +914,6 @@ html,body{
 
   <div
     class="objeto"
-    data-id="1"
     style="left:24%"
   >
     🦋
@@ -895,7 +921,6 @@ html,body{
 
   <div
     class="objeto"
-    data-id="2"
     style="left:40%"
   >
     🌺
@@ -903,7 +928,6 @@ html,body{
 
   <div
     class="objeto"
-    data-id="3"
     style="left:56%"
   >
     🍃
@@ -911,7 +935,6 @@ html,body{
 
   <div
     class="objeto"
-    data-id="4"
     style="left:72%"
   >
     🐸
@@ -919,7 +942,6 @@ html,body{
 
   <div
     class="objeto"
-    data-id="5"
     style="left:88%"
   >
     🪶
@@ -930,17 +952,17 @@ html,body{
 
   <div class="controles">
 
-    <div class="movimiento">
+    <div class="grupo">
 
       <div
-        id="izquierda"
+        id="botonIzquierda"
         class="control"
       >
         ◀
       </div>
 
       <div
-        id="derecha"
+        id="botonDerecha"
         class="control"
       >
         ▶
@@ -950,8 +972,8 @@ html,body{
 
 
     <div
-      id="saltar"
-      class="control salto"
+      id="botonSalto"
+      class="control"
     >
       SALTAR
     </div>
@@ -981,17 +1003,13 @@ html,body{
     </p>
 
     <img
-      id="imagenFinal"
+      id="spriteFinal"
       src=""
-      alt="Celebración"
     >
 
     <br>
 
-    <button
-      class="boton"
-      onclick="reiniciar()"
-    >
+    <button onclick="reiniciar()">
       Jugar otra vez
     </button>
 
@@ -1003,7 +1021,37 @@ html,body{
 <script>
 
 /* =====================================================
+   ARCHIVOS
+===================================================== */
+
+const ARCHIVOS = [
+
+  "0H.png",
+  "1H.png",
+  "2H.png",
+  "3H.png",
+  "4H.png",
+  "5H.png",
+  "6H.png",
+  "7H.png",
+  "8H.png",
+
+  "1M.png",
+  "2M.png",
+  "3M.png",
+  "4M.png",
+  "5M.png",
+  "6M.png",
+  "7M.png"
+
+];
+
+
+/* =====================================================
    PERSONAJES
+
+   AQUÍ DEFINIMOS EXACTAMENTE QUÉ IMAGEN
+   CORRESPONDE A CADA MOVIMIENTO.
 ===================================================== */
 
 const PERSONAJES = {
@@ -1065,34 +1113,48 @@ const PERSONAJES = {
 
 
 /* =====================================================
-   VARIABLES
+   PRECARGA REAL
 ===================================================== */
 
-let tipoPersonaje = null;
+let cargadas = 0;
 
-let personaje = null;
 
-let posicion = 8;
+ARCHIVOS.forEach(archivo=>{
 
-let direccion = 1;
+  const imagen =
+    new Image();
 
-let caminando = false;
 
-let saltando = false;
+  imagen.onload =
+  imagen.onerror =
+  ()=>{
 
-let recogiendo = false;
+    cargadas++;
 
-let puntos = 0;
 
-let frameCaminar = 0;
+    if(
+      cargadas >=
+      ARCHIVOS.length
+    ){
 
-let intervaloCaminar = null;
+      document
+        .getElementById("cargando")
+        .classList.add("oculto");
 
-let intervaloMovimiento = null;
 
-let teclaMovimiento = 0;
+      document
+        .getElementById("seleccion")
+        .classList.remove("oculto");
 
-let tiempoMensaje = null;
+    }
+
+  };
+
+
+  imagen.src =
+    archivo;
+
+});
 
 
 /* =====================================================
@@ -1108,8 +1170,8 @@ const juego =
 const jugador =
   document.getElementById("jugador");
 
-const imagenJugador =
-  document.getElementById("imagenJugador");
+const sprite =
+  document.getElementById("sprite");
 
 const contador =
   document.getElementById("contador");
@@ -1120,52 +1182,144 @@ const mensaje =
 const final =
   document.getElementById("final");
 
-const imagenFinal =
-  document.getElementById("imagenFinal");
+const spriteFinal =
+  document.getElementById("spriteFinal");
+
+const botonIzquierda =
+  document.getElementById("botonIzquierda");
+
+const botonDerecha =
+  document.getElementById("botonDerecha");
+
+const botonSalto =
+  document.getElementById("botonSalto");
+
+
+/* =====================================================
+   ESTADO DEL JUEGO
+===================================================== */
+
+let tipo = null;
+
+let personaje = null;
+
+
+/*
+   posición en porcentaje
+*/
+
+let x = 8;
+
+
+/*
+   -1 izquierda
+    0 quieto
+    1 derecha
+*/
+
+let direccion = 0;
+
+
+/*
+   Estados
+*/
+
+let saltando = false;
+
+let recogiendo = false;
+
+let juegoActivo = false;
+
+
+/*
+   Animación de caminar
+*/
+
+let frame = 0;
+
+let tiempoFrame = 0;
+
+
+/*
+   IMPORTANTE
+
+   Cada imagen permanecerá 180 ms.
+   Así el cambio será MUY visible.
+*/
+
+const VELOCIDAD_FRAME = 180;
+
+
+/*
+   velocidad horizontal
+*/
+
+const VELOCIDAD =
+  0.028;
+
+
+/*
+   puntos
+*/
+
+let puntos = 0;
+
+
+/*
+   tiempo del último frame del juego
+*/
+
+let tiempoAnterior =
+  performance.now();
+
+
+let tiempoMensaje = null;
 
 
 /* =====================================================
    ELEGIR PERSONAJE
 ===================================================== */
 
-function elegirPersonaje(tipo){
+function elegir(eleccion){
 
-  tipoPersonaje =
-    tipo;
+  tipo =
+    eleccion;
+
 
   personaje =
     PERSONAJES[tipo];
 
 
-  posicion = 8;
+  x = 8;
 
-  direccion = 1;
+  direccion = 0;
 
   puntos = 0;
-
-  caminando = false;
 
   saltando = false;
 
   recogiendo = false;
 
-  teclaMovimiento = 0;
+  frame = 0;
+
+  tiempoFrame = 0;
 
 
   contador.textContent =
     "0";
 
 
-  imagenJugador.src =
-    personaje.quieto;
-
-
   jugador.style.left =
-    posicion + "%";
+    x + "%";
 
 
   jugador.classList.remove(
-    "mirando-izquierda"
+    "izquierda"
+  );
+
+
+  cambiarSprite(
+    personaje.quieto
   );
 
 
@@ -1179,6 +1333,10 @@ function elegirPersonaje(tipo){
   );
 
 
+  juegoActivo =
+    true;
+
+
   mostrarMensaje(
     "¡Comienza la aventura! 🌿"
   );
@@ -1187,15 +1345,46 @@ function elegirPersonaje(tipo){
 
 
 /* =====================================================
-   COMENZAR A CAMINAR
+   CAMBIAR SPRITE
+
+   Añadimos un pequeño parámetro de versión
+   solamente cuando sea necesario para obligar
+   al navegador a mostrar el PNG correspondiente.
 ===================================================== */
 
-function comenzarMovimiento(dir){
+function cambiarSprite(archivo){
+
+  /*
+     NO recreamos el elemento IMG.
+     Solamente cambiamos su ruta.
+  */
 
   if(
-    !personaje ||
-    saltando ||
-    recogiendo
+    sprite.dataset.archivo ===
+    archivo
+  ){
+    return;
+  }
+
+
+  sprite.dataset.archivo =
+    archivo;
+
+
+  sprite.src =
+    archivo;
+
+}
+
+
+/* =====================================================
+   DIRECCIÓN
+===================================================== */
+
+function mover(dir){
+
+  if(
+    !juegoActivo
   ){
     return;
   }
@@ -1206,194 +1395,207 @@ function comenzarMovimiento(dir){
 
 
   jugador.classList.toggle(
-    "mirando-izquierda",
-    direccion < 0
+    "izquierda",
+    dir < 0
   );
 
 
   /*
-     Si ya está caminando,
-     solamente cambiamos dirección.
-
-     NO reiniciamos la animación.
+     Reiniciamos la secuencia únicamente
+     cuando empieza una nueva caminata.
   */
 
-  if(caminando){
+  if(
+    !saltando &&
+    !recogiendo
+  ){
 
+    frame = 0;
+
+    tiempoFrame = 0;
+
+
+    cambiarSprite(
+      personaje.caminar[0]
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   PARAR
+===================================================== */
+
+function parar(dir){
+
+  /*
+     Solo detenemos si estamos soltando
+     la dirección que realmente está activa.
+  */
+
+  if(
+    direccion !== dir
+  ){
     return;
+  }
+
+
+  direccion =
+    0;
+
+
+  frame =
+    0;
+
+
+  tiempoFrame =
+    0;
+
+
+  if(
+    !saltando &&
+    !recogiendo &&
+    personaje
+  ){
+
+    cambiarSprite(
+      personaje.quieto
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   BUCLE PRINCIPAL
+
+   ESTE ES EL CAMBIO MÁS IMPORTANTE.
+
+   Todo:
+   - movimiento
+   - animación
+   - detección
+
+   ocurre dentro del mismo bucle.
+===================================================== */
+
+function bucle(tiempo){
+
+  const delta =
+    Math.min(
+      tiempo -
+      tiempoAnterior,
+      40
+    );
+
+
+  tiempoAnterior =
+    tiempo;
+
+
+  if(
+    juegoActivo &&
+    personaje
+  ){
+
+    actualizar(
+      delta
+    );
 
   }
 
 
-  caminando =
-    true;
-
-
-  frameCaminar =
-    0;
-
-
-  const frames =
-    personaje.caminar;
-
-
-  /*
-     Mostramos inmediatamente
-     el primer frame.
-  */
-
-  imagenJugador.src =
-    frames[0];
-
-
-  /* =================================================
-     ANIMACIÓN DE LAS PIERNAS / POSES
-  ================================================= */
-
-  clearInterval(
-    intervaloCaminar
+  requestAnimationFrame(
+    bucle
   );
 
+}
 
-  intervaloCaminar =
-    setInterval(()=>{
+
+/* =====================================================
+   ACTUALIZAR JUEGO
+===================================================== */
+
+function actualizar(delta){
+
+  if(
+    direccion !== 0 &&
+    !saltando &&
+    !recogiendo
+  ){
+
+    /* ===============================================
+       MOVER PERSONAJE
+    =============================================== */
+
+    x +=
+      direccion *
+      VELOCIDAD *
+      delta;
+
+
+    x =
+      Math.max(
+        1,
+        Math.min(
+          88,
+          x
+        )
+      );
+
+
+    jugador.style.left =
+      x + "%";
+
+
+    /* ===============================================
+       ANIMAR PERSONAJE
+    =============================================== */
+
+    tiempoFrame +=
+      delta;
+
+
+    if(
+      tiempoFrame >=
+      VELOCIDAD_FRAME
+    ){
+
+      tiempoFrame =
+        0;
+
+
+      frame++;
+
 
       if(
-        !caminando ||
-        saltando ||
-        recogiendo
-      ){
-        return;
-      }
-
-
-      frameCaminar++;
-
-
-      if(
-        frameCaminar >=
-        frames.length
+        frame >=
+        personaje.caminar.length
       ){
 
-        frameCaminar =
+        frame =
           0;
 
       }
 
 
-      imagenJugador.src =
-        frames[
-          frameCaminar
-        ];
+      cambiarSprite(
+        personaje.caminar[
+          frame
+        ]
+      );
 
-    },160);
-
-
-  /* =================================================
-     MOVIMIENTO HORIZONTAL
-  ================================================= */
-
-  clearInterval(
-    intervaloMovimiento
-  );
+    }
 
 
-  intervaloMovimiento =
-    setInterval(()=>{
+    /* ===============================================
+       OBJETOS
+    =============================================== */
 
-      if(
-        !caminando ||
-        saltando ||
-        recogiendo
-      ){
-        return;
-      }
-
-
-      posicion +=
-        direccion * .65;
-
-
-      posicion =
-        Math.max(
-          1,
-          Math.min(
-            88,
-            posicion
-          )
-        );
-
-
-      jugador.style.left =
-        posicion + "%";
-
-
-      detectarObjetos();
-
-    },25);
-
-}
-
-
-/* =====================================================
-   CAMBIAR DIRECCIÓN
-===================================================== */
-
-function cambiarDireccion(dir){
-
-  direccion =
-    dir;
-
-
-  jugador.classList.toggle(
-    "mirando-izquierda",
-    direccion < 0
-  );
-
-}
-
-
-/* =====================================================
-   DETENER CAMINATA
-===================================================== */
-
-function detenerMovimiento(){
-
-  if(!caminando){
-    return;
-  }
-
-
-  caminando =
-    false;
-
-
-  clearInterval(
-    intervaloCaminar
-  );
-
-
-  clearInterval(
-    intervaloMovimiento
-  );
-
-
-  intervaloCaminar =
-    null;
-
-
-  intervaloMovimiento =
-    null;
-
-
-  if(
-    personaje &&
-    !saltando &&
-    !recogiendo
-  ){
-
-    imagenJugador.src =
-      personaje.quieto;
+    detectarObjetos();
 
   }
 
@@ -1407,22 +1609,12 @@ function detenerMovimiento(){
 function saltar(){
 
   if(
+    !juegoActivo ||
+    !personaje ||
     saltando ||
-    recogiendo ||
-    !personaje
+    recogiendo
   ){
     return;
-  }
-
-
-  const estabaCaminando =
-    caminando;
-
-
-  if(caminando){
-
-    detenerMovimiento();
-
   }
 
 
@@ -1430,74 +1622,82 @@ function saltar(){
     true;
 
 
-  imagenJugador.src =
-    personaje.salto;
-
-
-  jugador.animate(
-
-    [
-
-      {
-        transform:
-          "translateY(0)"
-      },
-
-      {
-        transform:
-          "translateY(-130px)"
-      },
-
-      {
-        transform:
-          "translateY(0)"
-      }
-
-    ],
-
-    {
-
-      duration:
-        650,
-
-      easing:
-        "ease-out"
-
-    }
-
+  cambiarSprite(
+    personaje.salto
   );
 
 
-  setTimeout(()=>{
+  const animacion =
+    jugador.animate(
+
+      [
+
+        {
+          transform:
+            "translateY(0)"
+        },
+
+        {
+          transform:
+            "translateY(-135px)"
+        },
+
+        {
+          transform:
+            "translateY(0)"
+        }
+
+      ],
+
+      {
+
+        duration:
+          650,
+
+        easing:
+          "ease-out"
+
+      }
+
+    );
+
+
+  animacion.onfinish =
+  ()=>{
 
     saltando =
       false;
 
 
-    imagenJugador.src =
-      personaje.quieto;
-
-
     detectarObjetos();
 
 
-    /*
-       Si seguía manteniendo
-       una dirección, continúa
-       caminando al caer.
-    */
-
     if(
-      teclaMovimiento !== 0
+      direccion !== 0
     ){
 
-      comenzarMovimiento(
-        teclaMovimiento
+      frame =
+        0;
+
+
+      tiempoFrame =
+        0;
+
+
+      cambiarSprite(
+        personaje.caminar[0]
+      );
+
+    }
+    else{
+
+      cambiarSprite(
+        personaje.quieto
       );
 
     }
 
-  },650);
+  };
 
 }
 
@@ -1509,7 +1709,6 @@ function saltar(){
 function detectarObjetos(){
 
   if(
-    !personaje ||
     recogiendo
   ){
     return;
@@ -1520,6 +1719,11 @@ function detectarObjetos(){
     jugador.getBoundingClientRect();
 
 
+  const centroJugador =
+    rectJugador.left +
+    rectJugador.width / 2;
+
+
   const objetos =
     document.querySelectorAll(
       ".objeto:not(.recogido)"
@@ -1528,18 +1732,13 @@ function detectarObjetos(){
 
   objetos.forEach(objeto=>{
 
-    const rectObjeto =
+    const rect =
       objeto.getBoundingClientRect();
 
 
-    const centroJugador =
-      rectJugador.left +
-      rectJugador.width / 2;
-
-
     const centroObjeto =
-      rectObjeto.left +
-      rectObjeto.width / 2;
+      rect.left +
+      rect.width / 2;
 
 
     const distancia =
@@ -1550,10 +1749,10 @@ function detectarObjetos(){
 
 
     if(
-      distancia < 55
+      distancia < 48
     ){
 
-      recogerObjeto(
+      recoger(
         objeto
       );
 
@@ -1565,16 +1764,16 @@ function detectarObjetos(){
 
 
 /* =====================================================
-   RECOGER OBJETO
+   RECOGER
 ===================================================== */
 
-function recogerObjeto(objeto){
+function recoger(objeto){
 
   if(
+    recogiendo ||
     objeto.classList.contains(
       "recogido"
-    ) ||
-    recogiendo
+    )
   ){
     return;
   }
@@ -1582,17 +1781,6 @@ function recogerObjeto(objeto){
 
   recogiendo =
     true;
-
-
-  const estabaCaminando =
-    caminando;
-
-
-  if(caminando){
-
-    detenerMovimiento();
-
-  }
 
 
   objeto.classList.add(
@@ -1607,27 +1795,35 @@ function recogerObjeto(objeto){
     puntos;
 
 
-  /*
-     Pose especial de recoger.
-  */
-
-  if(
+  cambiarSprite(
     personaje.recoger
-  ){
+  );
 
-    imagenJugador.src =
-      personaje.recoger;
 
-  }
+  const frases = [
+
+    "¡Excelente! 🌿",
+
+    "¡Lo encontraste! ⭐",
+
+    "¡Sigue explorando! 🦋",
+
+    "¡Muy bien! 🌺",
+
+    "¡Costa Rica está llena de vida! 🐸"
+
+  ];
 
 
   mostrarMensaje(
+
     frases[
       Math.floor(
         Math.random() *
         frases.length
       )
     ]
+
   );
 
 
@@ -1641,56 +1837,46 @@ function recogerObjeto(objeto){
       puntos >= 5
     ){
 
-      completarNivel();
+      terminarNivel();
 
       return;
 
     }
 
 
-    imagenJugador.src =
-      personaje.quieto;
-
-
-    /*
-       Si todavía mantiene
-       presionada una dirección,
-       sigue caminando.
-    */
-
     if(
-      teclaMovimiento !== 0
+      direccion !== 0
     ){
 
-      comenzarMovimiento(
-        teclaMovimiento
+      frame =
+        0;
+
+
+      tiempoFrame =
+        0;
+
+
+      cambiarSprite(
+        personaje.caminar[0]
+      );
+
+    }
+    else{
+
+      cambiarSprite(
+        personaje.quieto
       );
 
     }
 
-  },550);
+  },600);
 
 }
 
 
 /* =====================================================
-   FRASES
+   MENSAJES
 ===================================================== */
-
-const frases = [
-
-  "¡Excelente! 🌿",
-
-  "¡Encontraste uno! ⭐",
-
-  "¡Sigue explorando! 🦋",
-
-  "¡Muy bien! 🌺",
-
-  "¡Costa Rica está llena de vida! 🐸"
-
-];
-
 
 function mostrarMensaje(texto){
 
@@ -1715,21 +1901,22 @@ function mostrarMensaje(texto){
         "visible"
       );
 
-    },1500);
+    },1400);
 
 }
 
 
 /* =====================================================
-   FINAL DEL NIVEL
+   FINAL
 ===================================================== */
 
-function completarNivel(){
+function terminarNivel(){
 
-  detenerMovimiento();
+  juegoActivo =
+    false;
 
 
-  teclaMovimiento =
+  direccion =
     0;
 
 
@@ -1738,7 +1925,7 @@ function completarNivel(){
   );
 
 
-  imagenFinal.src =
+  spriteFinal.src =
     personaje.celebrar;
 
 
@@ -1755,42 +1942,16 @@ function completarNivel(){
 
 function reiniciar(){
 
-  detenerMovimiento();
+  juegoActivo =
+    false;
 
 
-  final.classList.add(
-    "oculto"
-  );
-
-
-  juego.classList.add(
-    "oculto"
-  );
-
-
-  seleccion.classList.remove(
-    "oculto"
-  );
+  direccion =
+    0;
 
 
   puntos =
     0;
-
-
-  posicion =
-    8;
-
-
-  teclaMovimiento =
-    0;
-
-
-  saltando =
-    false;
-
-
-  recogiendo =
-    false;
 
 
   contador.textContent =
@@ -1809,6 +1970,21 @@ function reiniciar(){
 
     });
 
+
+  final.classList.add(
+    "oculto"
+  );
+
+
+  juego.classList.add(
+    "oculto"
+  );
+
+
+  seleccion.classList.remove(
+    "oculto"
+  );
+
 }
 
 
@@ -1816,61 +1992,27 @@ function reiniciar(){
    TECLADO
 ===================================================== */
 
+const teclas = {
+
+  izquierda:false,
+
+  derecha:false
+
+};
+
+
 document.addEventListener(
   "keydown",
   e=>{
 
     if(
-      juego.classList.contains(
-        "oculto"
-      )
+      !juegoActivo
     ){
       return;
     }
 
 
-    /* ===============================================
-       DERECHA
-    =============================================== */
-
-    if(
-      e.key ===
-      "ArrowRight"
-    ){
-
-      e.preventDefault();
-
-
-      if(
-        teclaMovimiento !== 1
-      ){
-
-        teclaMovimiento =
-          1;
-
-
-        if(caminando){
-
-          cambiarDireccion(1);
-
-        }
-        else if(
-          !saltando &&
-          !recogiendo
-        ){
-
-          comenzarMovimiento(1);
-
-        }
-
-      }
-
-    }
-
-
-    /* ===============================================
-       IZQUIERDA
-    =============================================== */
+    /* IZQUIERDA */
 
     if(
       e.key ===
@@ -1881,51 +2023,60 @@ document.addEventListener(
 
 
       if(
-        teclaMovimiento !== -1
+        !teclas.izquierda
       ){
 
-        teclaMovimiento =
-          -1;
+        teclas.izquierda =
+          true;
 
 
-        if(caminando){
-
-          cambiarDireccion(-1);
-
-        }
-        else if(
-          !saltando &&
-          !recogiendo
-        ){
-
-          comenzarMovimiento(-1);
-
-        }
+        mover(-1);
 
       }
 
     }
 
 
-    /* ===============================================
-       SALTO
-    =============================================== */
+    /* DERECHA */
 
     if(
-      e.key === "ArrowUp" ||
-      e.key === " "
+      e.key ===
+      "ArrowRight"
     ){
 
       e.preventDefault();
 
 
-      /*
-         Evita repetir salto
-         automáticamente si se
-         mantiene la tecla.
-      */
+      if(
+        !teclas.derecha
+      ){
 
-      if(!e.repeat){
+        teclas.derecha =
+          true;
+
+
+        mover(1);
+
+      }
+
+    }
+
+
+    /* SALTO */
+
+    if(
+      e.key ===
+      "ArrowUp" ||
+      e.code ===
+      "Space"
+    ){
+
+      e.preventDefault();
+
+
+      if(
+        !e.repeat
+      ){
 
         saltar();
 
@@ -1937,38 +2088,60 @@ document.addEventListener(
 );
 
 
-/* =====================================================
-   SOLTAR TECLAS
-===================================================== */
-
 document.addEventListener(
   "keyup",
   e=>{
 
+    /* IZQUIERDA */
+
     if(
-      e.key === "ArrowRight" &&
-      teclaMovimiento === 1
+      e.key ===
+      "ArrowLeft"
     ){
 
-      teclaMovimiento =
-        0;
+      teclas.izquierda =
+        false;
 
 
-      detenerMovimiento();
+      if(
+        teclas.derecha
+      ){
+
+        mover(1);
+
+      }
+      else{
+
+        parar(-1);
+
+      }
 
     }
 
 
+    /* DERECHA */
+
     if(
-      e.key === "ArrowLeft" &&
-      teclaMovimiento === -1
+      e.key ===
+      "ArrowRight"
     ){
 
-      teclaMovimiento =
-        0;
+      teclas.derecha =
+        false;
 
 
-      detenerMovimiento();
+      if(
+        teclas.izquierda
+      ){
+
+        mover(-1);
+
+      }
+      else{
+
+        parar(1);
+
+      }
 
     }
 
@@ -1980,14 +2153,10 @@ document.addEventListener(
    BOTONES TÁCTILES
 ===================================================== */
 
-function prepararBoton(
-  id,
+function configurarBoton(
+  boton,
   dir
 ){
-
-  const boton =
-    document.getElementById(id);
-
 
   boton.addEventListener(
     "pointerdown",
@@ -1996,54 +2165,34 @@ function prepararBoton(
       e.preventDefault();
 
 
-      teclaMovimiento =
-        dir;
+      boton.classList.add(
+        "activo"
+      );
 
 
-      try{
+      mover(
+        dir
+      );
 
-        boton.setPointerCapture(
-          e.pointerId
-        );
-
-      }
-      catch(error){}
+  });
 
 
-      if(caminando){
+  const soltar =
+  e=>{
 
-        cambiarDireccion(
-          dir
-        );
-
-      }
-      else{
-
-        comenzarMovimiento(
-          dir
-        );
-
-      }
-
-    }
-  );
+    e.preventDefault();
 
 
-  function soltar(){
-
-    if(
-      teclaMovimiento === dir
-    ){
-
-      teclaMovimiento =
-        0;
-
-    }
+    boton.classList.remove(
+      "activo"
+    );
 
 
-    detenerMovimiento();
+    parar(
+      dir
+    );
 
-  }
+  };
 
 
   boton.addEventListener(
@@ -2057,73 +2206,73 @@ function prepararBoton(
     soltar
   );
 
-
-  boton.addEventListener(
-    "pointerleave",
-    e=>{
-
-      if(
-        e.buttons === 0
-      ){
-
-        soltar();
-
-      }
-
-    }
-  );
-
 }
 
 
-/* BOTÓN IZQUIERDO */
-
-prepararBoton(
-  "izquierda",
+configurarBoton(
+  botonIzquierda,
   -1
 );
 
 
-/* BOTÓN DERECHO */
-
-prepararBoton(
-  "derecha",
+configurarBoton(
+  botonDerecha,
   1
 );
 
 
-/* BOTÓN SALTAR */
+botonSalto.addEventListener(
+  "pointerdown",
+  e=>{
 
-document
-  .getElementById(
-    "saltar"
-  )
-  .addEventListener(
-    "pointerdown",
-    e=>{
+    e.preventDefault();
 
-      e.preventDefault();
+    saltar();
 
-      saltar();
-
-    }
-  );
+  }
+);
 
 
 /* =====================================================
-   SEGURIDAD AL PERDER FOCO
+   SI LA VENTANA PIERDE FOCO
 ===================================================== */
 
 window.addEventListener(
   "blur",
   ()=>{
 
-    teclaMovimiento =
+    teclas.izquierda =
+      false;
+
+    teclas.derecha =
+      false;
+
+    direccion =
       0;
 
-    detenerMovimiento();
+
+    if(
+      personaje &&
+      !saltando &&
+      !recogiendo
+    ){
+
+      cambiarSprite(
+        personaje.quieto
+      );
+
+    }
 
   }
+);
+
+
+/* =====================================================
+   INICIAMOS EL MOTOR
+===================================================== */
+
+requestAnimationFrame(
+  bucle
 );
 
 </script>
