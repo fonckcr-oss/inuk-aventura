@@ -1,4 +1,1107 @@
-nina:{
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<title>Inúk - Aventura en Costa Rica</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#123d2e;
+  touch-action:none;
+  user-select:none;
+}
+
+.pantalla{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.oculto{
+  display:none !important;
+}
+
+/* =====================================================
+   SELECCIÓN
+===================================================== */
+
+#seleccion{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:
+    radial-gradient(
+      circle at 50% 10%,
+      rgba(255,255,255,.55),
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      #75d9cf 0%,
+      #c9f1c7 50%,
+      #69b86d 100%
+    );
+}
+
+.panel{
+  width:min(900px,95%);
+  text-align:center;
+  position:relative;
+  z-index:2;
+}
+
+.marca{
+  color:#17654b;
+  font-weight:900;
+  letter-spacing:5px;
+  font-size:14px;
+}
+
+h1{
+  color:#164f3d;
+  font-size:clamp(36px,6vw,65px);
+  margin-top:5px;
+  text-shadow:0 2px white;
+}
+
+.subtitulo{
+  color:#276b56;
+  margin-top:8px;
+  font-size:17px;
+}
+
+.elige{
+  display:inline-block;
+  margin:20px 0 15px;
+  padding:9px 22px;
+
+  background:white;
+  color:#17614a;
+
+  border-radius:30px;
+
+  font-weight:bold;
+
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
+
+.personajes{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+}
+
+.tarjeta{
+  position:relative;
+
+  width:min(310px,43vw);
+  height:390px;
+
+  overflow:hidden;
+
+  background:rgba(255,255,255,.5);
+
+  border:4px solid white;
+  border-radius:28px;
+
+  cursor:pointer;
+
+  box-shadow:0 15px 35px rgba(0,0,0,.2);
+
+  transition:.2s;
+}
+
+.tarjeta:hover{
+  transform:translateY(-8px) scale(1.02);
+}
+
+.tarjeta img{
+  width:100%;
+  height:330px;
+
+  object-fit:contain;
+
+  filter:drop-shadow(0 10px 8px rgba(0,0,0,.2));
+}
+
+.nombre{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+
+  padding:14px;
+
+  background:rgba(20,92,67,.94);
+  color:white;
+
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* =====================================================
+   JUEGO
+===================================================== */
+
+#juego{
+  background:
+    linear-gradient(
+      #65d5e8 0%,
+      #a9e9e4 37%,
+      #8fd27c 38%,
+      #438a50 100%
+    );
+}
+
+.sol{
+  position:absolute;
+
+  right:10%;
+  top:70px;
+
+  width:100px;
+  height:100px;
+
+  border-radius:50%;
+
+  background:#ffe46a;
+
+  box-shadow:0 0 50px #fff2a0;
+}
+
+/* =====================================================
+   MONTAÑAS
+===================================================== */
+
+.montana{
+  position:absolute;
+  bottom:27%;
+
+  width:0;
+  height:0;
+
+  border-left:200px solid transparent;
+  border-right:200px solid transparent;
+  border-bottom:260px solid #44825d;
+
+  opacity:.7;
+}
+
+.m1{
+  left:-100px;
+}
+
+.m2{
+  left:28%;
+  transform:scale(.8);
+}
+
+.m3{
+  right:-100px;
+  transform:scale(1.1);
+}
+
+/* =====================================================
+   BOSQUE
+===================================================== */
+
+.bosque{
+  position:absolute;
+
+  bottom:19%;
+  left:0;
+  right:0;
+
+  height:210px;
+
+  background:
+    radial-gradient(
+      ellipse at 5% 100%,
+      #205d39 0 15%,
+      transparent 16%
+    ),
+
+    radial-gradient(
+      ellipse at 20% 100%,
+      #287141 0 18%,
+      transparent 19%
+    ),
+
+    radial-gradient(
+      ellipse at 38% 100%,
+      #1e5935 0 19%,
+      transparent 20%
+    ),
+
+    radial-gradient(
+      ellipse at 57% 100%,
+      #2d7745 0 19%,
+      transparent 20%
+    ),
+
+    radial-gradient(
+      ellipse at 77% 100%,
+      #205e38 0 19%,
+      transparent 20%
+    ),
+
+    radial-gradient(
+      ellipse at 95% 100%,
+      #286e41 0 19%,
+      transparent 20%
+    );
+}
+
+/* =====================================================
+   SUELO
+===================================================== */
+
+.suelo{
+  position:absolute;
+
+  bottom:0;
+  left:0;
+
+  width:100%;
+  height:23%;
+
+  border-top:8px solid #68ad58;
+
+  background:
+    linear-gradient(
+      #498e48,
+      #28693b
+    );
+}
+
+/* =====================================================
+   HUD
+===================================================== */
+
+.hud{
+  position:absolute;
+  z-index:50;
+
+  top:15px;
+  left:15px;
+  right:15px;
+
+  display:flex;
+  justify-content:space-between;
+
+  pointer-events:none;
+}
+
+.hud-caja{
+  padding:10px 16px;
+
+  border:2px solid rgba(255,255,255,.85);
+  border-radius:25px;
+
+  background:rgba(16,75,55,.88);
+  color:white;
+
+  font-size:14px;
+  font-weight:bold;
+
+  box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+#contador{
+  color:#ffe359;
+}
+
+/* =====================================================
+   MENSAJE
+===================================================== */
+
+#mensaje{
+  position:absolute;
+  z-index:60;
+
+  top:75px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  padding:10px 20px;
+
+  background:white;
+  color:#17614a;
+
+  border-radius:25px;
+
+  font-weight:bold;
+
+  opacity:0;
+
+  transition:.25s;
+
+  box-shadow:0 5px 18px rgba(0,0,0,.15);
+
+  pointer-events:none;
+}
+
+#mensaje.visible{
+  opacity:1;
+}
+
+/* =====================================================
+   JUGADOR
+===================================================== */
+
+#jugador{
+  position:absolute;
+  z-index:20;
+
+  left:8%;
+  bottom:15%;
+
+  width:175px;
+  height:255px;
+
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+
+  will-change:left,transform;
+}
+
+#jugador img{
+  display:block;
+
+  max-width:100%;
+  max-height:100%;
+
+  object-fit:contain;
+
+  pointer-events:none;
+
+  opacity:1;
+  visibility:visible;
+
+  filter:drop-shadow(0 9px 6px rgba(0,0,0,.25));
+}
+
+#jugador.izquierda img{
+  transform:scaleX(-1);
+}
+
+/* =====================================================
+   OBJETOS
+===================================================== */
+
+.objeto{
+  position:absolute;
+  z-index:15;
+
+  bottom:17%;
+
+  width:54px;
+  height:54px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:3px solid white;
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #fff8b0,
+      #ffd744 50%,
+      #e99a25
+    );
+
+  font-size:28px;
+
+  box-shadow:0 5px 15px rgba(0,0,0,.25);
+
+  animation:flotar 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes flotar{
+
+  from{
+    transform:translateY(0);
+  }
+
+  to{
+    transform:translateY(-12px);
+  }
+
+}
+
+.objeto.recogido{
+  animation:desaparecer .45s forwards;
+}
+
+@keyframes desaparecer{
+
+  to{
+    opacity:0;
+
+    transform:
+      translateY(-100px)
+      scale(0);
+  }
+
+}
+
+/* =====================================================
+   CONTROLES
+===================================================== */
+
+.controles{
+  position:absolute;
+  z-index:80;
+
+  left:0;
+  right:0;
+  bottom:18px;
+
+  display:flex;
+  justify-content:space-between;
+
+  padding:0 20px;
+
+  pointer-events:none;
+}
+
+.grupo{
+  display:flex;
+  gap:12px;
+}
+
+.control{
+  width:70px;
+  height:70px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  border:3px solid rgba(255,255,255,.9);
+  border-radius:50%;
+
+  background:rgba(15,76,56,.82);
+  color:white;
+
+  font-size:30px;
+  font-weight:bold;
+
+  box-shadow:0 5px 15px rgba(0,0,0,.22);
+
+  pointer-events:auto;
+
+  cursor:pointer;
+}
+
+.control.activo,
+.control:active{
+  background:#ee7b36;
+  transform:scale(.92);
+}
+
+#botonSalto{
+  width:78px;
+  height:78px;
+
+  background:rgba(238,123,54,.9);
+
+  font-size:14px;
+}
+
+/* =====================================================
+   FINAL
+===================================================== */
+
+#final{
+  position:absolute;
+  z-index:200;
+
+  inset:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:rgba(7,51,37,.84);
+
+  backdrop-filter:blur(6px);
+}
+
+.final-caja{
+  width:min(500px,90%);
+
+  padding:30px;
+
+  text-align:center;
+
+  border:4px solid white;
+  border-radius:30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff7c9,
+      white
+    );
+
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+.final-caja h2{
+  color:#17614a;
+  font-size:36px;
+}
+
+.final-caja p{
+  margin:10px 0;
+
+  color:#47705f;
+}
+
+.final-caja img{
+  width:220px;
+  height:220px;
+
+  object-fit:contain;
+}
+
+.final-caja button{
+  border:0;
+  border-radius:25px;
+
+  padding:13px 25px;
+
+  background:#ed7935;
+  color:white;
+
+  font-size:16px;
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+/* =====================================================
+   CARGANDO
+===================================================== */
+
+#cargando{
+  position:fixed;
+  z-index:1000;
+
+  inset:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+
+  gap:12px;
+
+  background:#eaf7dd;
+  color:#17614a;
+
+  font-size:18px;
+  font-weight:bold;
+}
+
+.circulo{
+  width:45px;
+  height:45px;
+
+  border:5px solid #b8dfbe;
+  border-top-color:#17614a;
+
+  border-radius:50%;
+
+  animation:girar .8s linear infinite;
+}
+
+@keyframes girar{
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+/* =====================================================
+   CELULAR
+===================================================== */
+
+@media(max-width:600px){
+
+  .panel{
+    width:98%;
+  }
+
+  h1{
+    font-size:34px;
+  }
+
+  .subtitulo{
+    font-size:13px;
+  }
+
+  .elige{
+    margin:13px 0 10px;
+  }
+
+  .personajes{
+    gap:7px;
+  }
+
+  .tarjeta{
+    width:46vw;
+    height:325px;
+
+    border-radius:20px;
+  }
+
+  .tarjeta img{
+    height:275px;
+  }
+
+  .nombre{
+    padding:9px;
+
+    font-size:14px;
+  }
+
+  #jugador{
+    width:130px;
+    height:200px;
+
+    bottom:16%;
+  }
+
+  .objeto{
+    width:43px;
+    height:43px;
+
+    font-size:22px;
+  }
+
+  .hud{
+    top:8px;
+    left:7px;
+    right:7px;
+  }
+
+  .hud-caja{
+    padding:7px 9px;
+
+    font-size:10px;
+  }
+
+  #mensaje{
+    top:55px;
+
+    padding:7px 13px;
+
+    font-size:11px;
+  }
+
+  .controles{
+    bottom:10px;
+
+    padding:0 10px;
+  }
+
+  .control{
+    width:60px;
+    height:60px;
+
+    font-size:24px;
+  }
+
+  #botonSalto{
+    width:66px;
+    height:66px;
+
+    font-size:11px;
+  }
+
+}
+
+/* =====================================================
+   CELULAR HORIZONTAL
+===================================================== */
+
+@media(max-height:500px){
+
+  #jugador{
+    width:120px;
+    height:175px;
+  }
+
+  .control{
+    width:52px;
+    height:52px;
+  }
+
+  #botonSalto{
+    width:58px;
+    height:58px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ===================================================
+     CARGANDO
+=================================================== -->
+
+<div id="cargando">
+
+  <div class="circulo"></div>
+
+  Preparando la aventura...
+
+</div>
+
+
+<!-- ===================================================
+     SELECCIÓN
+=================================================== -->
+
+<section
+  id="seleccion"
+  class="pantalla oculto"
+>
+
+  <div class="panel">
+
+    <div class="marca">
+      INÚK
+    </div>
+
+    <h1>
+      Aventura en Costa Rica
+    </h1>
+
+    <div class="subtitulo">
+      Explora, descubre y aprende sobre nuestra naturaleza.
+    </div>
+
+    <div class="elige">
+      Elige tu explorador
+    </div>
+
+    <div class="personajes">
+
+      <!-- NIÑA -->
+
+      <div
+        class="tarjeta"
+        onclick="elegir('nina')"
+      >
+
+        <img
+          src="1M.png"
+          alt="Exploradora"
+        >
+
+        <div class="nombre">
+          👧 Exploradora
+        </div>
+
+      </div>
+
+
+      <!-- NIÑO -->
+
+      <div
+        class="tarjeta"
+        onclick="elegir('nino')"
+      >
+
+        <img
+          src="0H.png"
+          alt="Explorador"
+        >
+
+        <div class="nombre">
+          👦 Explorador
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     JUEGO
+=================================================== -->
+
+<section
+  id="juego"
+  class="pantalla oculto"
+>
+
+  <div class="sol"></div>
+
+  <div class="montana m1"></div>
+  <div class="montana m2"></div>
+  <div class="montana m3"></div>
+
+  <div class="bosque"></div>
+
+  <div class="suelo"></div>
+
+
+  <!-- HUD -->
+
+  <div class="hud">
+
+    <div class="hud-caja">
+      🌿 Nivel 1 · El Bosque de Inúk
+    </div>
+
+    <div class="hud-caja">
+      ⭐
+      <span id="contador">0</span>
+      / 5
+    </div>
+
+  </div>
+
+
+  <!-- MENSAJE -->
+
+  <div id="mensaje">
+    ¡Comienza la aventura!
+  </div>
+
+
+  <!-- PERSONAJE -->
+
+  <div id="jugador">
+
+    <img
+      id="sprite"
+      src=""
+      alt="Explorador"
+    >
+
+  </div>
+
+
+  <!-- OBJETOS -->
+
+  <div
+    class="objeto"
+    style="left:24%"
+  >
+    🦋
+  </div>
+
+  <div
+    class="objeto"
+    style="left:40%"
+  >
+    🌺
+  </div>
+
+  <div
+    class="objeto"
+    style="left:56%"
+  >
+    🍃
+  </div>
+
+  <div
+    class="objeto"
+    style="left:72%"
+  >
+    🐸
+  </div>
+
+  <div
+    class="objeto"
+    style="left:88%"
+  >
+    🪶
+  </div>
+
+
+  <!-- CONTROLES -->
+
+  <div class="controles">
+
+    <div class="grupo">
+
+      <div
+        id="botonIzquierda"
+        class="control"
+      >
+        ◀
+      </div>
+
+      <div
+        id="botonDerecha"
+        class="control"
+      >
+        ▶
+      </div>
+
+    </div>
+
+
+    <div
+      id="botonSalto"
+      class="control"
+    >
+      SALTAR
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     FINAL
+=================================================== -->
+
+<section
+  id="final"
+  class="oculto"
+>
+
+  <div class="final-caja">
+
+    <h2>
+      ¡Misión cumplida!
+    </h2>
+
+    <p>
+      Descubriste los tesoros del Bosque de Inúk.
+    </p>
+
+    <img
+      id="spriteFinal"
+      src=""
+      alt="Celebración"
+    >
+
+    <br>
+
+    <button onclick="reiniciar()">
+      Jugar otra vez
+    </button>
+
+  </div>
+
+</section>
+
+
+<script>
+
+/* =====================================================
+   ARCHIVOS A PRECARGAR
+===================================================== */
+
+const ARCHIVOS = [
+
+  /* NIÑO */
+
+  "0H.png",
+  "1H.png",
+  "2H.png",
+  "3H.png",
+  "4H.png",
+  "5H.png",
+  "6H.png",
+  "7H.png",
+  "8H.png",
+
+  /* NIÑA */
+
+  "1M.png",
+  "2M.png",
+  "3M.png",
+  "4M.png",
+  "5M.png",
+  "6M.png",
+  "7M.png"
+
+];
+
+
+/* =====================================================
+   PERSONAJES
+===================================================== */
+
+const PERSONAJES = {
+
+  /* ===================================================
+     NIÑO
+  =================================================== */
+
+  nino:{
+
+    quieto:
+      "0H.png",
+
+    caminar:[
+      "1H.png",
+      "2H.png",
+      "3H.png",
+      "2H.png"
+    ],
+
+    salto:
+      "4H.png",
+
+    celebrar:
+      "5H.png",
+
+    especial:
+      "6H.png",
+
+    pose:
+      "7H.png",
+
+    recoger:
+      "8H.png"
+
+  },
+
+
+  /* ===================================================
+     NIÑA
+  =================================================== */
+
+  nina:{
 
     quieto:
       "1M.png",
@@ -20,3 +1123,1344 @@ nina:{
       "7M.png"
 
   }
+
+};
+
+
+/* =====================================================
+   PRECARGA DE IMÁGENES
+===================================================== */
+
+let cargadas = 0;
+
+const cacheImagenes = {};
+
+
+ARCHIVOS.forEach(archivo=>{
+
+  const imagen =
+    new Image();
+
+
+  imagen.onload =
+  ()=>{
+
+    cacheImagenes[archivo] =
+      imagen;
+
+
+    cargadas++;
+
+
+    comprobarCarga();
+
+  };
+
+
+  imagen.onerror =
+  ()=>{
+
+    console.warn(
+      "No se pudo precargar:",
+      archivo
+    );
+
+
+    cargadas++;
+
+
+    comprobarCarga();
+
+  };
+
+
+  imagen.src =
+    archivo;
+
+});
+
+
+function comprobarCarga(){
+
+  if(
+    cargadas >=
+    ARCHIVOS.length
+  ){
+
+    document
+      .getElementById("cargando")
+      .classList.add("oculto");
+
+
+    document
+      .getElementById("seleccion")
+      .classList.remove("oculto");
+
+  }
+
+}
+
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const seleccion =
+  document.getElementById("seleccion");
+
+const juego =
+  document.getElementById("juego");
+
+const jugador =
+  document.getElementById("jugador");
+
+const sprite =
+  document.getElementById("sprite");
+
+const contador =
+  document.getElementById("contador");
+
+const mensaje =
+  document.getElementById("mensaje");
+
+const final =
+  document.getElementById("final");
+
+const spriteFinal =
+  document.getElementById("spriteFinal");
+
+const botonIzquierda =
+  document.getElementById("botonIzquierda");
+
+const botonDerecha =
+  document.getElementById("botonDerecha");
+
+const botonSalto =
+  document.getElementById("botonSalto");
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let tipo = null;
+
+let personaje = null;
+
+let x = 8;
+
+let direccion = 0;
+
+let saltando = false;
+
+let recogiendo = false;
+
+let juegoActivo = false;
+
+let frame = 0;
+
+let tiempoFrame = 0;
+
+let puntos = 0;
+
+let tiempoAnterior =
+  performance.now();
+
+let tiempoMensaje = null;
+
+
+/* =====================================================
+   VELOCIDADES
+===================================================== */
+
+const VELOCIDAD_FRAME =
+  180;
+
+const VELOCIDAD =
+  0.028;
+
+
+/* =====================================================
+   CAMBIAR SPRITE SEGURO
+
+   Si una imagen falla:
+   NO desaparece el personaje.
+===================================================== */
+
+function cambiarSprite(archivo){
+
+  if(
+    !archivo ||
+    !personaje
+  ){
+    return;
+  }
+
+
+  /*
+     Ya está mostrando esa imagen.
+  */
+
+  if(
+    sprite.dataset.archivo ===
+    archivo
+  ){
+    return;
+  }
+
+
+  /*
+     Guardamos la última imagen válida.
+  */
+
+  const anterior =
+    sprite.dataset.archivo ||
+    personaje.quieto;
+
+
+  /*
+     Si ya está precargada,
+     la usamos inmediatamente.
+  */
+
+  if(
+    cacheImagenes[archivo]
+  ){
+
+    sprite.src =
+      archivo;
+
+
+    sprite.dataset.archivo =
+      archivo;
+
+
+    sprite.style.visibility =
+      "visible";
+
+
+    sprite.style.opacity =
+      "1";
+
+
+    return;
+
+  }
+
+
+  /*
+     Si por algún motivo no quedó
+     en caché, comprobamos antes
+     de sustituir la imagen actual.
+  */
+
+  const prueba =
+    new Image();
+
+
+  prueba.onload =
+  ()=>{
+
+    cacheImagenes[archivo] =
+      prueba;
+
+
+    sprite.src =
+      archivo;
+
+
+    sprite.dataset.archivo =
+      archivo;
+
+
+    sprite.style.visibility =
+      "visible";
+
+
+    sprite.style.opacity =
+      "1";
+
+  };
+
+
+  prueba.onerror =
+  ()=>{
+
+    console.warn(
+      "No se pudo cargar:",
+      archivo
+    );
+
+
+    /*
+       Mantenemos la imagen anterior.
+    */
+
+    if(anterior){
+
+      sprite.src =
+        anterior;
+
+
+      sprite.dataset.archivo =
+        anterior;
+
+    }
+
+
+    sprite.style.visibility =
+      "visible";
+
+
+    sprite.style.opacity =
+      "1";
+
+  };
+
+
+  prueba.src =
+    archivo;
+
+}
+
+
+/* =====================================================
+   ELEGIR PERSONAJE
+===================================================== */
+
+function elegir(eleccion){
+
+  tipo =
+    eleccion;
+
+
+  personaje =
+    PERSONAJES[tipo];
+
+
+  x =
+    8;
+
+
+  direccion =
+    0;
+
+
+  puntos =
+    0;
+
+
+  saltando =
+    false;
+
+
+  recogiendo =
+    false;
+
+
+  frame =
+    0;
+
+
+  tiempoFrame =
+    0;
+
+
+  contador.textContent =
+    "0";
+
+
+  jugador.style.left =
+    x + "%";
+
+
+  jugador.classList.remove(
+    "izquierda"
+  );
+
+
+  /*
+     Aquí cargamos directamente
+     la pose inicial.
+  */
+
+  sprite.src =
+    personaje.quieto;
+
+
+  sprite.dataset.archivo =
+    personaje.quieto;
+
+
+  sprite.style.visibility =
+    "visible";
+
+
+  sprite.style.opacity =
+    "1";
+
+
+  seleccion.classList.add(
+    "oculto"
+  );
+
+
+  juego.classList.remove(
+    "oculto"
+  );
+
+
+  juegoActivo =
+    true;
+
+
+  mostrarMensaje(
+    "¡Comienza la aventura! 🌿"
+  );
+
+}
+
+
+/* =====================================================
+   EMPEZAR MOVIMIENTO
+===================================================== */
+
+function mover(dir){
+
+  if(
+    !juegoActivo ||
+    !personaje
+  ){
+    return;
+  }
+
+
+  /*
+     Si ya estamos moviéndonos
+     en esa misma dirección,
+     no reiniciamos la animación.
+  */
+
+  const nuevaDireccion =
+    direccion !== dir;
+
+
+  direccion =
+    dir;
+
+
+  jugador.classList.toggle(
+    "izquierda",
+    dir < 0
+  );
+
+
+  if(
+    nuevaDireccion &&
+    !saltando &&
+    !recogiendo
+  ){
+
+    frame =
+      0;
+
+
+    tiempoFrame =
+      0;
+
+
+    cambiarSprite(
+      personaje.caminar[0]
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   PARAR
+===================================================== */
+
+function parar(dir){
+
+  if(
+    direccion !== dir
+  ){
+    return;
+  }
+
+
+  direccion =
+    0;
+
+
+  frame =
+    0;
+
+
+  tiempoFrame =
+    0;
+
+
+  if(
+    personaje &&
+    !saltando &&
+    !recogiendo
+  ){
+
+    cambiarSprite(
+      personaje.quieto
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   MOTOR PRINCIPAL
+===================================================== */
+
+function bucle(tiempo){
+
+  const delta =
+    Math.min(
+      tiempo -
+      tiempoAnterior,
+      40
+    );
+
+
+  tiempoAnterior =
+    tiempo;
+
+
+  if(
+    juegoActivo &&
+    personaje
+  ){
+
+    actualizar(
+      delta
+    );
+
+  }
+
+
+  requestAnimationFrame(
+    bucle
+  );
+
+}
+
+
+/* =====================================================
+   ACTUALIZAR
+===================================================== */
+
+function actualizar(delta){
+
+  if(
+    direccion !== 0 &&
+    !saltando &&
+    !recogiendo
+  ){
+
+    /* MOVIMIENTO */
+
+    x +=
+      direccion *
+      VELOCIDAD *
+      delta;
+
+
+    x =
+      Math.max(
+        1,
+        Math.min(
+          88,
+          x
+        )
+      );
+
+
+    jugador.style.left =
+      x + "%";
+
+
+    /* ANIMACIÓN */
+
+    tiempoFrame +=
+      delta;
+
+
+    if(
+      tiempoFrame >=
+      VELOCIDAD_FRAME
+    ){
+
+      tiempoFrame -=
+        VELOCIDAD_FRAME;
+
+
+      frame++;
+
+
+      if(
+        frame >=
+        personaje.caminar.length
+      ){
+
+        frame =
+          0;
+
+      }
+
+
+      cambiarSprite(
+        personaje.caminar[
+          frame
+        ]
+      );
+
+    }
+
+
+    detectarObjetos();
+
+  }
+
+}
+
+
+/* =====================================================
+   SALTAR
+===================================================== */
+
+function saltar(){
+
+  if(
+    !juegoActivo ||
+    !personaje ||
+    saltando ||
+    recogiendo
+  ){
+    return;
+  }
+
+
+  saltando =
+    true;
+
+
+  cambiarSprite(
+    personaje.salto
+  );
+
+
+  const animacion =
+    jugador.animate(
+
+      [
+
+        {
+          transform:
+            "translateY(0)"
+        },
+
+        {
+          transform:
+            "translateY(-135px)"
+        },
+
+        {
+          transform:
+            "translateY(0)"
+        }
+
+      ],
+
+      {
+
+        duration:
+          650,
+
+        easing:
+          "ease-out"
+
+      }
+
+    );
+
+
+  animacion.onfinish =
+  ()=>{
+
+    saltando =
+      false;
+
+
+    detectarObjetos();
+
+
+    if(
+      direccion !== 0
+    ){
+
+      frame =
+        0;
+
+
+      tiempoFrame =
+        0;
+
+
+      cambiarSprite(
+        personaje.caminar[0]
+      );
+
+    }
+    else{
+
+      cambiarSprite(
+        personaje.quieto
+      );
+
+    }
+
+  };
+
+}
+
+
+/* =====================================================
+   DETECTAR OBJETOS
+===================================================== */
+
+function detectarObjetos(){
+
+  if(
+    !personaje ||
+    recogiendo
+  ){
+    return;
+  }
+
+
+  const rectJugador =
+    jugador.getBoundingClientRect();
+
+
+  const centroJugador =
+    rectJugador.left +
+    rectJugador.width / 2;
+
+
+  const objetos =
+    document.querySelectorAll(
+      ".objeto:not(.recogido)"
+    );
+
+
+  objetos.forEach(objeto=>{
+
+    const rect =
+      objeto.getBoundingClientRect();
+
+
+    const centroObjeto =
+      rect.left +
+      rect.width / 2;
+
+
+    const distancia =
+      Math.abs(
+        centroJugador -
+        centroObjeto
+      );
+
+
+    if(
+      distancia < 48
+    ){
+
+      recoger(
+        objeto
+      );
+
+    }
+
+  });
+
+}
+
+
+/* =====================================================
+   RECOGER
+===================================================== */
+
+function recoger(objeto){
+
+  if(
+    recogiendo ||
+    objeto.classList.contains(
+      "recogido"
+    )
+  ){
+    return;
+  }
+
+
+  recogiendo =
+    true;
+
+
+  objeto.classList.add(
+    "recogido"
+  );
+
+
+  puntos++;
+
+
+  contador.textContent =
+    puntos;
+
+
+  /*
+     NIÑO = 8H
+     NIÑA = 5M
+  */
+
+  cambiarSprite(
+    personaje.recoger
+  );
+
+
+  const frases = [
+
+    "¡Excelente! 🌿",
+
+    "¡Lo encontraste! ⭐",
+
+    "¡Sigue explorando! 🦋",
+
+    "¡Muy bien! 🌺",
+
+    "¡Costa Rica está llena de vida! 🐸"
+
+  ];
+
+
+  mostrarMensaje(
+
+    frases[
+      Math.floor(
+        Math.random() *
+        frases.length
+      )
+    ]
+
+  );
+
+
+  setTimeout(()=>{
+
+    recogiendo =
+      false;
+
+
+    if(
+      puntos >= 5
+    ){
+
+      terminarNivel();
+
+      return;
+
+    }
+
+
+    if(
+      direccion !== 0
+    ){
+
+      frame =
+        0;
+
+
+      tiempoFrame =
+        0;
+
+
+      cambiarSprite(
+        personaje.caminar[0]
+      );
+
+    }
+    else{
+
+      cambiarSprite(
+        personaje.quieto
+      );
+
+    }
+
+  },600);
+
+}
+
+
+/* =====================================================
+   MENSAJES
+===================================================== */
+
+function mostrarMensaje(texto){
+
+  mensaje.textContent =
+    texto;
+
+
+  mensaje.classList.add(
+    "visible"
+  );
+
+
+  clearTimeout(
+    tiempoMensaje
+  );
+
+
+  tiempoMensaje =
+    setTimeout(()=>{
+
+      mensaje.classList.remove(
+        "visible"
+      );
+
+    },1400);
+
+}
+
+
+/* =====================================================
+   FINAL
+===================================================== */
+
+function terminarNivel(){
+
+  juegoActivo =
+    false;
+
+
+  direccion =
+    0;
+
+
+  juego.classList.add(
+    "oculto"
+  );
+
+
+  spriteFinal.src =
+    personaje.celebrar;
+
+
+  final.classList.remove(
+    "oculto"
+  );
+
+}
+
+
+/* =====================================================
+   REINICIAR
+===================================================== */
+
+function reiniciar(){
+
+  juegoActivo =
+    false;
+
+
+  direccion =
+    0;
+
+
+  puntos =
+    0;
+
+
+  saltando =
+    false;
+
+
+  recogiendo =
+    false;
+
+
+  frame =
+    0;
+
+
+  contador.textContent =
+    "0";
+
+
+  document
+    .querySelectorAll(
+      ".objeto"
+    )
+    .forEach(objeto=>{
+
+      objeto.classList.remove(
+        "recogido"
+      );
+
+    });
+
+
+  final.classList.add(
+    "oculto"
+  );
+
+
+  juego.classList.add(
+    "oculto"
+  );
+
+
+  seleccion.classList.remove(
+    "oculto"
+  );
+
+}
+
+
+/* =====================================================
+   TECLADO
+===================================================== */
+
+const teclas = {
+
+  izquierda:false,
+
+  derecha:false
+
+};
+
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      !juegoActivo
+    ){
+      return;
+    }
+
+
+    /* IZQUIERDA */
+
+    if(
+      e.key ===
+      "ArrowLeft"
+    ){
+
+      e.preventDefault();
+
+
+      if(
+        !teclas.izquierda
+      ){
+
+        teclas.izquierda =
+          true;
+
+
+        mover(-1);
+
+      }
+
+    }
+
+
+    /* DERECHA */
+
+    if(
+      e.key ===
+      "ArrowRight"
+    ){
+
+      e.preventDefault();
+
+
+      if(
+        !teclas.derecha
+      ){
+
+        teclas.derecha =
+          true;
+
+
+        mover(1);
+
+      }
+
+    }
+
+
+    /* SALTO */
+
+    if(
+      e.key === "ArrowUp" ||
+      e.code === "Space"
+    ){
+
+      e.preventDefault();
+
+
+      if(
+        !e.repeat
+      ){
+
+        saltar();
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   SOLTAR TECLAS
+===================================================== */
+
+document.addEventListener(
+  "keyup",
+  e=>{
+
+    /* IZQUIERDA */
+
+    if(
+      e.key ===
+      "ArrowLeft"
+    ){
+
+      teclas.izquierda =
+        false;
+
+
+      if(
+        teclas.derecha
+      ){
+
+        mover(1);
+
+      }
+      else{
+
+        parar(-1);
+
+      }
+
+    }
+
+
+    /* DERECHA */
+
+    if(
+      e.key ===
+      "ArrowRight"
+    ){
+
+      teclas.derecha =
+        false;
+
+
+      if(
+        teclas.izquierda
+      ){
+
+        mover(-1);
+
+      }
+      else{
+
+        parar(1);
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   BOTONES CELULAR
+===================================================== */
+
+function configurarBoton(
+  boton,
+  dir
+){
+
+  boton.addEventListener(
+    "pointerdown",
+    e=>{
+
+      e.preventDefault();
+
+
+      boton.classList.add(
+        "activo"
+      );
+
+
+      try{
+
+        boton.setPointerCapture(
+          e.pointerId
+        );
+
+      }
+      catch(error){}
+
+
+      mover(
+        dir
+      );
+
+    }
+  );
+
+
+  function soltar(e){
+
+    if(e){
+
+      e.preventDefault();
+
+    }
+
+
+    boton.classList.remove(
+      "activo"
+    );
+
+
+    parar(
+      dir
+    );
+
+  }
+
+
+  boton.addEventListener(
+    "pointerup",
+    soltar
+  );
+
+
+  boton.addEventListener(
+    "pointercancel",
+    soltar
+  );
+
+}
+
+
+/* IZQUIERDA */
+
+configurarBoton(
+  botonIzquierda,
+  -1
+);
+
+
+/* DERECHA */
+
+configurarBoton(
+  botonDerecha,
+  1
+);
+
+
+/* SALTO */
+
+botonSalto.addEventListener(
+  "pointerdown",
+  e=>{
+
+    e.preventDefault();
+
+
+    saltar();
+
+  }
+);
+
+
+/* =====================================================
+   PERDER FOCO
+===================================================== */
+
+window.addEventListener(
+  "blur",
+  ()=>{
+
+    teclas.izquierda =
+      false;
+
+
+    teclas.derecha =
+      false;
+
+
+    direccion =
+      0;
+
+
+    botonIzquierda.classList.remove(
+      "activo"
+    );
+
+
+    botonDerecha.classList.remove(
+      "activo"
+    );
+
+
+    if(
+      personaje &&
+      !saltando &&
+      !recogiendo
+    ){
+
+      cambiarSprite(
+        personaje.quieto
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   INICIAR MOTOR
+===================================================== */
+
+requestAnimationFrame(
+  bucle
+);
+
+</script>
+
+</body>
+</html>
