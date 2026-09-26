@@ -1,1 +1,1597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
+<title>Inúk - Aventura en Costa Rica</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#102f25;
+  touch-action:none;
+}
+
+/* =========================================
+   PANTALLAS
+========================================= */
+
+.pantalla{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.oculto{
+  display:none !important;
+}
+
+/* =========================================
+   SELECCIÓN DE PERSONAJE
+========================================= */
+
+#seleccion{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+
+  background:
+    radial-gradient(circle at 50% 20%,rgba(255,255,255,.32),transparent 35%),
+    linear-gradient(
+      180deg,
+      #7ddbc4 0%,
+      #c9f1c7 43%,
+      #6eba72 100%
+    );
+}
+
+#seleccion:before,
+#seleccion:after{
+  content:"";
+  position:absolute;
+  bottom:-70px;
+
+  width:420px;
+  height:420px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      #286d42 0 28%,
+      #368452 29% 45%,
+      transparent 46%
+    );
+
+  opacity:.55;
+}
+
+#seleccion:before{
+  left:-220px;
+}
+
+#seleccion:after{
+  right:-220px;
+}
+
+.panel-seleccion{
+  position:relative;
+  z-index:2;
+
+  width:min(900px,94%);
+  text-align:center;
+
+  padding:25px;
+}
+
+.logo-mini{
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:4px;
+  color:#12614b;
+}
+
+.panel-seleccion h1{
+  margin-top:7px;
+
+  font-size:clamp(34px,6vw,64px);
+  line-height:1;
+
+  color:#164f3d;
+
+  text-shadow:
+    0 2px 0 rgba(255,255,255,.7);
+}
+
+.subtitulo{
+  margin-top:10px;
+
+  color:#276b56;
+
+  font-size:clamp(14px,2.2vw,19px);
+}
+
+.elige{
+  display:inline-block;
+
+  margin:20px 0 14px;
+  padding:9px 22px;
+
+  border-radius:30px;
+
+  background:#fff;
+  color:#1e664c;
+
+  font-weight:bold;
+
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+}
+
+.personajes{
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+
+  gap:25px;
+}
+
+.tarjeta{
+  position:relative;
+
+  width:min(310px,42vw);
+  height:390px;
+
+  border:4px solid rgba(255,255,255,.9);
+  border-radius:28px;
+
+  background:rgba(255,255,255,.45);
+
+  overflow:hidden;
+  cursor:pointer;
+
+  box-shadow:0 15px 35px rgba(0,0,0,.18);
+
+  transition:
+    transform .2s,
+    box-shadow .2s;
+}
+
+.tarjeta:hover{
+  transform:translateY(-8px) scale(1.02);
+
+  box-shadow:
+    0 22px 45px rgba(0,0,0,.25);
+}
+
+.tarjeta img{
+  width:100%;
+  height:330px;
+
+  object-fit:contain;
+
+  filter:
+    drop-shadow(0 10px 8px rgba(0,0,0,.18));
+}
+
+.nombre-personaje{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+
+  padding:14px;
+
+  background:rgba(20,92,67,.93);
+  color:white;
+
+  font-size:19px;
+  font-weight:bold;
+}
+
+/* =========================================
+   JUEGO
+========================================= */
+
+#juego{
+  background:
+    linear-gradient(
+      180deg,
+      #6bd5e8 0%,
+      #aee9e5 36%,
+      #9bd886 37%,
+      #48995e 100%
+    );
+}
+
+/* cielo */
+
+.sol{
+  position:absolute;
+
+  top:55px;
+  right:10%;
+
+  width:100px;
+  height:100px;
+
+  border-radius:50%;
+
+  background:#ffe56c;
+
+  box-shadow:
+    0 0 45px #fff5a5;
+}
+
+/* montañas */
+
+.montana{
+  position:absolute;
+  bottom:29%;
+
+  width:0;
+  height:0;
+
+  border-left:180px solid transparent;
+  border-right:180px solid transparent;
+  border-bottom:230px solid #43845d;
+
+  opacity:.75;
+}
+
+.m1{
+  left:-60px;
+}
+
+.m2{
+  left:25%;
+  transform:scale(.8);
+}
+
+.m3{
+  right:-60px;
+  transform:scale(1.15);
+}
+
+/* bosque */
+
+.bosque{
+  position:absolute;
+
+  left:0;
+  right:0;
+  bottom:20%;
+
+  height:190px;
+
+  background:
+    radial-gradient(
+      ellipse at 5% 100%,
+      #205d39 0 14%,
+      transparent 15%
+    ),
+    radial-gradient(
+      ellipse at 20% 100%,
+      #276d3e 0 17%,
+      transparent 18%
+    ),
+    radial-gradient(
+      ellipse at 38% 100%,
+      #1f5d37 0 18%,
+      transparent 19%
+    ),
+    radial-gradient(
+      ellipse at 58% 100%,
+      #2c7544 0 18%,
+      transparent 19%
+    ),
+    radial-gradient(
+      ellipse at 77% 100%,
+      #205f38 0 18%,
+      transparent 19%
+    ),
+    radial-gradient(
+      ellipse at 95% 100%,
+      #286f41 0 18%,
+      transparent 19%
+    );
+}
+
+/* suelo */
+
+.suelo{
+  position:absolute;
+
+  bottom:0;
+  left:0;
+
+  width:100%;
+  height:23%;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 80px,
+      rgba(255,255,255,.025) 81px 83px
+    ),
+    linear-gradient(
+      #498d48,
+      #2e703c
+    );
+
+  border-top:8px solid #67aa58;
+}
+
+/* =========================================
+   CABECERA DEL JUEGO
+========================================= */
+
+.hud{
+  position:absolute;
+  z-index:20;
+
+  top:15px;
+  left:15px;
+  right:15px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  pointer-events:none;
+}
+
+.nivel,
+.puntos{
+  padding:10px 17px;
+
+  border:2px solid rgba(255,255,255,.8);
+  border-radius:22px;
+
+  background:rgba(20,73,55,.87);
+  color:white;
+
+  font-size:14px;
+  font-weight:bold;
+
+  box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.puntos span{
+  color:#ffdf4d;
+}
+
+/* =========================================
+   PERSONAJE
+========================================= */
+
+#jugador{
+  position:absolute;
+  z-index:10;
+
+  left:8%;
+  bottom:15%;
+
+  width:170px;
+  height:250px;
+
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+
+  transition:left .06s linear;
+}
+
+#jugador img{
+  max-width:100%;
+  max-height:100%;
+
+  object-fit:contain;
+
+  pointer-events:none;
+
+  filter:
+    drop-shadow(0 9px 6px rgba(0,0,0,.25));
+}
+
+.mirando-izquierda img{
+  transform:scaleX(-1);
+}
+
+/* =========================================
+   OBJETOS
+========================================= */
+
+.objeto{
+  position:absolute;
+  z-index:7;
+
+  bottom:17%;
+
+  width:52px;
+  height:52px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:3px solid white;
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #fff8ad,
+      #ffd948 45%,
+      #ef9d25
+    );
+
+  font-size:28px;
+
+  box-shadow:
+    0 5px 14px rgba(0,0,0,.25);
+
+  animation:flotar 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes flotar{
+  from{
+    transform:translateY(0) rotate(-5deg);
+  }
+  to{
+    transform:translateY(-12px) rotate(5deg);
+  }
+}
+
+.recogido{
+  animation:recogerObjeto .45s forwards;
+}
+
+@keyframes recogerObjeto{
+  to{
+    transform:
+      translateY(-100px)
+      scale(0);
+
+    opacity:0;
+  }
+}
+
+/* =========================================
+   MENSAJES
+========================================= */
+
+#mensaje{
+  position:absolute;
+  z-index:30;
+
+  top:80px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  max-width:80%;
+
+  padding:10px 20px;
+
+  border-radius:22px;
+
+  background:rgba(255,255,255,.92);
+  color:#226447;
+
+  font-weight:bold;
+  font-size:14px;
+
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
+
+  opacity:0;
+
+  transition:opacity .3s;
+}
+
+#mensaje.visible{
+  opacity:1;
+}
+
+/* =========================================
+   CONTROLES
+========================================= */
+
+.controles{
+  position:absolute;
+  z-index:40;
+
+  bottom:18px;
+  left:0;
+  right:0;
+
+  display:flex;
+  justify-content:space-between;
+
+  padding:0 20px;
+
+  pointer-events:none;
+}
+
+.movimiento{
+  display:flex;
+  gap:12px;
+}
+
+.control{
+  width:68px;
+  height:68px;
+
+  border:3px solid rgba(255,255,255,.85);
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(16,74,56,.78);
+  color:white;
+
+  font-size:30px;
+  font-weight:bold;
+
+  box-shadow:0 5px 15px rgba(0,0,0,.22);
+
+  pointer-events:auto;
+
+  user-select:none;
+  -webkit-user-select:none;
+
+  cursor:pointer;
+}
+
+.control:active{
+  transform:scale(.9);
+  background:#ef7f35;
+}
+
+.salto{
+  width:76px;
+  height:76px;
+
+  background:rgba(239,127,53,.88);
+
+  font-size:15px;
+}
+
+/* =========================================
+   FINAL
+========================================= */
+
+#final{
+  position:absolute;
+  z-index:100;
+
+  inset:0;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(10,53,39,.82);
+
+  backdrop-filter:blur(5px);
+}
+
+.final-caja{
+  width:min(500px,90%);
+
+  padding:35px 25px;
+
+  text-align:center;
+
+  border:4px solid white;
+  border-radius:30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff7cb,
+      #fff
+    );
+
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+.final-caja h2{
+  color:#1e684b;
+  font-size:36px;
+}
+
+.final-caja p{
+  margin:12px 0 20px;
+
+  color:#42715f;
+}
+
+.final-caja img{
+  width:210px;
+  height:220px;
+
+  object-fit:contain;
+}
+
+.boton{
+  border:0;
+  border-radius:25px;
+
+  padding:13px 25px;
+
+  background:#ed7935;
+  color:white;
+
+  font-weight:bold;
+  font-size:16px;
+
+  cursor:pointer;
+}
+
+/* =========================================
+   CELULAR
+========================================= */
+
+@media(max-width:600px){
+
+  .panel-seleccion{
+    padding:12px;
+  }
+
+  .panel-seleccion h1{
+    font-size:34px;
+  }
+
+  .personajes{
+    gap:8px;
+  }
+
+  .tarjeta{
+    width:46vw;
+    height:330px;
+
+    border-radius:20px;
+  }
+
+  .tarjeta img{
+    height:275px;
+  }
+
+  .nombre-personaje{
+    padding:10px;
+
+    font-size:15px;
+  }
+
+  #jugador{
+    width:125px;
+    height:195px;
+
+    bottom:16%;
+  }
+
+  .objeto{
+    width:43px;
+    height:43px;
+
+    font-size:23px;
+  }
+
+  .control{
+    width:60px;
+    height:60px;
+
+    font-size:25px;
+  }
+
+  .salto{
+    width:66px;
+    height:66px;
+
+    font-size:13px;
+  }
+
+  .controles{
+    padding:0 12px;
+  }
+
+  .nivel,
+  .puntos{
+    font-size:11px;
+
+    padding:8px 11px;
+  }
+
+}
+
+/* escritorio: controles discretos */
+
+@media(min-width:900px){
+
+  .controles{
+    opacity:.65;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================
+     SELECCIÓN
+===================================== -->
+
+<section id="seleccion" class="pantalla">
+
+  <div class="panel-seleccion">
+
+    <div class="logo-mini">
+      INÚK
+    </div>
+
+    <h1>
+      Aventura en Costa Rica
+    </h1>
+
+    <p class="subtitulo">
+      Explora, descubre y aprende sobre nuestra naturaleza.
+    </p>
+
+    <div class="elige">
+      Elige tu explorador
+    </div>
+
+    <div class="personajes">
+
+      <div
+        class="tarjeta"
+        onclick="elegirPersonaje('nina')"
+      >
+        <img
+          src="1M.png"
+          alt="Exploradora"
+        >
+
+        <div class="nombre-personaje">
+          👧 Exploradora
+        </div>
+      </div>
+
+      <div
+        class="tarjeta"
+        onclick="elegirPersonaje('nino')"
+      >
+        <img
+          src="0H.png"
+          alt="Explorador"
+        >
+
+        <div class="nombre-personaje">
+          👦 Explorador
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================
+     JUEGO
+===================================== -->
+
+<section
+  id="juego"
+  class="pantalla oculto"
+>
+
+  <div class="sol"></div>
+
+  <div class="montana m1"></div>
+  <div class="montana m2"></div>
+  <div class="montana m3"></div>
+
+  <div class="bosque"></div>
+  <div class="suelo"></div>
+
+  <div class="hud">
+
+    <div class="nivel">
+      🌿 Nivel 1 · El Bosque de Inúk
+    </div>
+
+    <div class="puntos">
+      ⭐ <span id="contador">0</span> / 5
+    </div>
+
+  </div>
+
+  <div id="mensaje">
+    ¡Muy bien!
+  </div>
+
+  <div id="jugador">
+    <img
+      id="imagenJugador"
+      src=""
+      alt="Personaje"
+    >
+  </div>
+
+  <!-- objetos -->
+
+  <div
+    class="objeto"
+    data-id="1"
+    style="left:24%"
+  >
+    🦋
+  </div>
+
+  <div
+    class="objeto"
+    data-id="2"
+    style="left:40%"
+  >
+    🌺
+  </div>
+
+  <div
+    class="objeto"
+    data-id="3"
+    style="left:56%"
+  >
+    🍃
+  </div>
+
+  <div
+    class="objeto"
+    data-id="4"
+    style="left:72%"
+  >
+    🐸
+  </div>
+
+  <div
+    class="objeto"
+    data-id="5"
+    style="left:88%"
+  >
+    🪶
+  </div>
+
+  <!-- controles -->
+
+  <div class="controles">
+
+    <div class="movimiento">
+
+      <div
+        id="izquierda"
+        class="control"
+      >
+        ◀
+      </div>
+
+      <div
+        id="derecha"
+        class="control"
+      >
+        ▶
+      </div>
+
+    </div>
+
+    <div
+      id="saltar"
+      class="control salto"
+    >
+      SALTAR
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================
+     FINAL
+===================================== -->
+
+<section
+  id="final"
+  class="oculto"
+>
+
+  <div class="final-caja">
+
+    <h2>
+      ¡Misión cumplida!
+    </h2>
+
+    <p>
+      Descubriste los tesoros del Bosque de Inúk.
+    </p>
+
+    <img
+      id="imagenFinal"
+      src=""
+      alt="Celebración"
+    >
+
+    <br>
+
+    <button
+      class="boton"
+      onclick="reiniciar()"
+    >
+      Jugar otra vez
+    </button>
+
+  </div>
+
+</section>
+
+
+<script>
+
+/* =========================================
+   CONFIGURACIÓN DE PERSONAJES
+========================================= */
+
+const PERSONAJES = {
+
+  nino:{
+    quieto:"0H.png",
+
+    caminar:[
+      "1H.png",
+      "2H.png",
+      "3H.png"
+    ],
+
+    salto:"4H.png",
+
+    celebrar:"5H.png",
+
+    especial:"6H.png",
+
+    pose:"7H.png",
+
+    recoger:"8H.png"
+  },
+
+  nina:{
+    quieto:"1M.png",
+
+    caminar:[
+      "2M.png",
+      "3M.png",
+      "6M.png"
+    ],
+
+    salto:"4M.png",
+
+    recoger:"5M.png",
+
+    celebrar:"7M.png"
+  }
+
+};
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+let tipoPersonaje = null;
+
+let personaje = null;
+
+let posicion = 8;
+
+let direccion = 1;
+
+let caminando = false;
+
+let saltando = false;
+
+let puntos = 0;
+
+let frameCaminar = 0;
+
+let intervaloCaminar = null;
+
+let intervaloMovimiento = null;
+
+
+/* =========================================
+   ELEMENTOS
+========================================= */
+
+const seleccion =
+  document.getElementById("seleccion");
+
+const juego =
+  document.getElementById("juego");
+
+const jugador =
+  document.getElementById("jugador");
+
+const imagenJugador =
+  document.getElementById("imagenJugador");
+
+const contador =
+  document.getElementById("contador");
+
+const mensaje =
+  document.getElementById("mensaje");
+
+const final =
+  document.getElementById("final");
+
+const imagenFinal =
+  document.getElementById("imagenFinal");
+
+
+/* =========================================
+   ELEGIR PERSONAJE
+========================================= */
+
+function elegirPersonaje(tipo){
+
+  tipoPersonaje = tipo;
+
+  personaje =
+    PERSONAJES[tipo];
+
+  imagenJugador.src =
+    personaje.quieto;
+
+  posicion = 8;
+
+  jugador.style.left =
+    posicion + "%";
+
+  seleccion.classList.add(
+    "oculto"
+  );
+
+  juego.classList.remove(
+    "oculto"
+  );
+
+  mostrarMensaje(
+    "¡Comienza la aventura! 🌿"
+  );
+
+}
+
+
+/* =========================================
+   CAMINAR
+========================================= */
+
+function comenzarMovimiento(dir){
+
+  if(saltando) return;
+
+  direccion = dir;
+
+  jugador.classList.toggle(
+    "mirando-izquierda",
+    dir < 0
+  );
+
+  if(!caminando){
+
+    caminando = true;
+
+    frameCaminar = 0;
+
+    intervaloCaminar =
+      setInterval(()=>{
+
+        if(!caminando) return;
+
+        const frames =
+          personaje.caminar;
+
+        imagenJugador.src =
+          frames[
+            frameCaminar %
+            frames.length
+          ];
+
+        frameCaminar++;
+
+      },150);
+
+  }
+
+  clearInterval(
+    intervaloMovimiento
+  );
+
+  intervaloMovimiento =
+    setInterval(()=>{
+
+      posicion +=
+        direccion * .65;
+
+      posicion =
+        Math.max(
+          1,
+          Math.min(
+            88,
+            posicion
+          )
+        );
+
+      jugador.style.left =
+        posicion + "%";
+
+      detectarObjetos();
+
+    },25);
+
+}
+
+
+function detenerMovimiento(){
+
+  caminando = false;
+
+  clearInterval(
+    intervaloCaminar
+  );
+
+  clearInterval(
+    intervaloMovimiento
+  );
+
+  if(
+    personaje &&
+    !saltando
+  ){
+
+    imagenJugador.src =
+      personaje.quieto;
+
+  }
+
+}
+
+
+/* =========================================
+   SALTAR
+========================================= */
+
+function saltar(){
+
+  if(
+    saltando ||
+    !personaje
+  ) return;
+
+  saltando = true;
+
+  imagenJugador.src =
+    personaje.salto;
+
+  jugador.animate(
+
+    [
+      {
+        transform:
+          "translateY(0)"
+      },
+
+      {
+        transform:
+          "translateY(-125px)"
+      },
+
+      {
+        transform:
+          "translateY(0)"
+      }
+    ],
+
+    {
+      duration:650,
+      easing:"ease-out"
+    }
+
+  );
+
+  setTimeout(()=>{
+
+    saltando = false;
+
+    imagenJugador.src =
+      personaje.quieto;
+
+    detectarObjetos();
+
+  },650);
+
+}
+
+
+/* =========================================
+   RECOGER OBJETOS
+========================================= */
+
+function detectarObjetos(){
+
+  const rectJugador =
+    jugador.getBoundingClientRect();
+
+  const objetos =
+    document.querySelectorAll(
+      ".objeto:not(.recogido)"
+    );
+
+  objetos.forEach(objeto=>{
+
+    const rectObjeto =
+      objeto.getBoundingClientRect();
+
+    const distancia =
+      Math.abs(
+        (
+          rectJugador.left +
+          rectJugador.width/2
+        )
+        -
+        (
+          rectObjeto.left +
+          rectObjeto.width/2
+        )
+      );
+
+    if(
+      distancia < 60
+    ){
+
+      recogerObjeto(
+        objeto
+      );
+
+    }
+
+  });
+
+}
+
+
+function recogerObjeto(objeto){
+
+  if(
+    objeto.classList.contains(
+      "recogido"
+    )
+  ) return;
+
+  objeto.classList.add(
+    "recogido"
+  );
+
+  puntos++;
+
+  contador.textContent =
+    puntos;
+
+  /* pose recoger */
+
+  if(
+    personaje.recoger
+  ){
+
+    imagenJugador.src =
+      personaje.recoger;
+
+  }
+
+  mostrarMensaje(
+    frases[
+      Math.floor(
+        Math.random() *
+        frases.length
+      )
+    ]
+  );
+
+  setTimeout(()=>{
+
+    if(
+      !saltando &&
+      !caminando
+    ){
+
+      imagenJugador.src =
+        personaje.quieto;
+
+    }
+
+  },450);
+
+  if(puntos >= 5){
+
+    setTimeout(
+      completarNivel,
+      700
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   FRASES
+========================================= */
+
+const frases = [
+
+  "¡Excelente! 🌿",
+
+  "¡Encontraste uno! ⭐",
+
+  "¡Sigue explorando! 🦋",
+
+  "¡Muy bien! 🌺",
+
+  "¡Costa Rica está llena de vida! 🐸"
+
+];
+
+
+let tiempoMensaje = null;
+
+
+function mostrarMensaje(texto){
+
+  mensaje.textContent =
+    texto;
+
+  mensaje.classList.add(
+    "visible"
+  );
+
+  clearTimeout(
+    tiempoMensaje
+  );
+
+  tiempoMensaje =
+    setTimeout(()=>{
+
+      mensaje.classList.remove(
+        "visible"
+      );
+
+    },1500);
+
+}
+
+
+/* =========================================
+   FINAL DEL NIVEL
+========================================= */
+
+function completarNivel(){
+
+  detenerMovimiento();
+
+  juego.classList.add(
+    "oculto"
+  );
+
+  imagenFinal.src =
+    personaje.celebrar;
+
+  final.classList.remove(
+    "oculto"
+  );
+
+}
+
+
+/* =========================================
+   REINICIAR
+========================================= */
+
+function reiniciar(){
+
+  final.classList.add(
+    "oculto"
+  );
+
+  juego.classList.add(
+    "oculto"
+  );
+
+  seleccion.classList.remove(
+    "oculto"
+  );
+
+  puntos = 0;
+
+  contador.textContent =
+    "0";
+
+  posicion = 8;
+
+  document
+    .querySelectorAll(
+      ".objeto"
+    )
+    .forEach(objeto=>{
+
+      objeto.classList.remove(
+        "recogido"
+      );
+
+    });
+
+}
+
+
+/* =========================================
+   TECLADO
+========================================= */
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      juego.classList.contains(
+        "oculto"
+      )
+    ) return;
+
+    if(
+      e.key ===
+      "ArrowRight"
+    ){
+
+      comenzarMovimiento(1);
+
+    }
+
+    if(
+      e.key ===
+      "ArrowLeft"
+    ){
+
+      comenzarMovimiento(-1);
+
+    }
+
+    if(
+      e.key ===
+      "ArrowUp" ||
+      e.key === " "
+    ){
+
+      e.preventDefault();
+
+      saltar();
+
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  "keyup",
+  e=>{
+
+    if(
+      e.key ===
+      "ArrowRight" ||
+      e.key ===
+      "ArrowLeft"
+    ){
+
+      detenerMovimiento();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   CONTROLES TÁCTILES
+========================================= */
+
+function prepararBoton(
+  id,
+  direccionBoton
+){
+
+  const boton =
+    document.getElementById(id);
+
+  boton.addEventListener(
+    "pointerdown",
+    e=>{
+
+      e.preventDefault();
+
+      boton.setPointerCapture(
+        e.pointerId
+      );
+
+      comenzarMovimiento(
+        direccionBoton
+      );
+
+    }
+  );
+
+  boton.addEventListener(
+    "pointerup",
+    detenerMovimiento
+  );
+
+  boton.addEventListener(
+    "pointercancel",
+    detenerMovimiento
+  );
+
+}
+
+
+prepararBoton(
+  "izquierda",
+  -1
+);
+
+prepararBoton(
+  "derecha",
+  1
+);
+
+
+document
+  .getElementById(
+    "saltar"
+  )
+  .addEventListener(
+    "pointerdown",
+    e=>{
+
+      e.preventDefault();
+
+      saltar();
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
